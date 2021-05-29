@@ -1,4 +1,6 @@
 package com.casestudydraft.dao;
 
-public interface RoleDAO {
+import com.casestudydraft.model.Role;
+
+public interface RoleDAO extends GenericDAO<Role>{
 }

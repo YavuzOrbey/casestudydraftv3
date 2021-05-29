@@ -10,7 +10,6 @@ public class Ingredient extends BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-
     private int id;
 
     @Column(name="serving_size")

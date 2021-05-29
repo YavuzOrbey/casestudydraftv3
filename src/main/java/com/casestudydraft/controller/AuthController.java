@@ -30,7 +30,7 @@ public class AuthController {
             mav = new ModelAndView("misc/error");
         }catch(NoResultException e) {
             User user = new User(request.getParameter("email"), request.getParameter("password"));
-            userService.saveToDatabase(user);
+            userService saveToDatabase(user);
             mav = new ModelAndView("misc/success");
         }catch(Exception e) {
             System.out.println(e);

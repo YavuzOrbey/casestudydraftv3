@@ -8,9 +8,9 @@
       </form>
       <ul class='navbar-nav me-auto mb-2 mb-lg-0 bg-transparent '>
 
-        <li class="nav-item"><a class="nav-link link-light fs-5" href="home">Home</a></li>
-        <li class="nav-item"><a class="nav-link link-light fs-5" href="login">Login</a></li>
-        <li class="nav-item"><a class="nav-link link-light fs-5" href="register">Register</a></li>
+        <li class="nav-item"><a class="nav-link link-light fs-5" href="${pageContext.request.contextPath}/home">Home</a></li>
+        <li class="nav-item"><a class="nav-link link-light fs-5" href="${pageContext.request.contextPath}/login">Login</a></li>
+        <li class="nav-item"><a class="nav-link link-light fs-5" href="${pageContext.request.contextPath}/register">Register</a></li>
       </ul>
     </div>
   </nav>

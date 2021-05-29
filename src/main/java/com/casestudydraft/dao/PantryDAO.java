@@ -1,4 +1,6 @@
 package com.casestudydraft.dao;
 
-public interface PantryDAO {
+import com.casestudydraft.model.Pantry;
+
+public interface PantryDAO extends GenericDAO<Pantry> {
 }

@@ -1,4 +1,6 @@
 package com.casestudydraft.dao;
 
-public interface MealDAO {
+import com.casestudydraft.model.Meal;
+
+public interface MealDAO extends GenericDAO<Meal>{
 }

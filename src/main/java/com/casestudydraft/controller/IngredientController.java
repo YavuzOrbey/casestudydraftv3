@@ -15,6 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("ingredient")
 public class IngredientController {
+    @ModelAttribute
+    public Ingredient setUpIngredient(){
+        Ingredient ingredient = new Ingredient();
+        return ingredient;
+    }
+
     @RequestMapping(method= RequestMethod.GET)
     public ModelAndView viewAllIngredients(HttpServletRequest request) {
         ModelAndView mav = null;
@@ -34,7 +40,7 @@ public class IngredientController {
 
     @RequestMapping(value="/create", method= RequestMethod.POST)
     public ModelAndView storeIngredient(HttpServletRequest request, @ModelAttribute("ingredient") Ingredient ingredient) {
-        Measurement measurement = new Measurement(request.getParameter("measurement"));
+//        Measurement measurement = new Measurement(request.getParameter("measurement"));
         IngredientService ingredientService = new IngredientService();
         ingredientService.saveToDatabase(ingredient);
         System.out.println(ingredient.getId());
