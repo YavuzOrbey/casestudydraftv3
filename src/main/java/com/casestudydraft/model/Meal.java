@@ -24,5 +24,7 @@ public class Meal extends BaseModel{
     )
     private Set<Recipe> recipe;
 
-
+    public Meal() {
+        super();
+    }
 }

@@ -13,6 +13,7 @@ public class Role {
     @Column(name="name")
     private String name;
 
+
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -24,6 +25,9 @@ public class Role {
     )
 
     private List<User> rUsers;
+
+    public Role() {
+    }
 
 
 

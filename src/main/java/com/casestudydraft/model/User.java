@@ -1,6 +1,9 @@
 package com.casestudydraft.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
@@ -12,10 +15,14 @@ public class User extends BaseModel {
     @Column(name = "id")
     private int id;
 
+
     @Column(name="email")
+    @Email
     private String email;
 
     @Column(name="password")
+    @NotBlank(message="Password is required")
+    @Size(message ="Password must be at least 6 characters in length")
     private String password;
 
 

@@ -22,6 +22,9 @@ public class Step extends BaseModel {
     Set<RecipeEntity> recipeEntity;
 */
 
+    public Step() {
+    }
+
     public Step(String text, int stepOrder) {
         super();
         this.text = text;

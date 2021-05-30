@@ -23,6 +23,10 @@ public class Recipe extends BaseModel{
     )
     private Set<StepEntity> stepEntity;*/
 
+    public Recipe() {
+        super();
+    }
+
     public Recipe(String name) {
         super();
         this.name = name;

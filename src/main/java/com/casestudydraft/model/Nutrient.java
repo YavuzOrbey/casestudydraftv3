@@ -31,10 +31,9 @@ public class Nutrient extends BaseModel{
     }
 
 
-    public Nutrient(String name, Measurement measurement) {
+    public Nutrient(String name) {
         super();
         this.name = name;
-        this.measurement = measurement;
     }
 
 

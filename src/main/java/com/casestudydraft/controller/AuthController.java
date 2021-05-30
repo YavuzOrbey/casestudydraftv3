@@ -2,7 +2,10 @@ package com.casestudydraft.controller;
 
 import com.casestudydraft.model.User;
 import com.casestudydraft.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class AuthController {
+    @Autowired UserService userService;
 
     @RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registerScreen(HttpServletRequest request) {
@@ -21,16 +25,15 @@ public class AuthController {
     }
 
     @RequestMapping(value="/register", method = RequestMethod.POST)
-    public ModelAndView registerUser(HttpServletRequest request) {
+    public ModelAndView registerUser(HttpServletRequest request, @ModelAttribute User user) {
         //should also create the user's pantry when registered
         ModelAndView mav = null;
-        UserService userService = new UserService();
         try {
-            User user = userService.findByEmail(request.getParameter("email"));
+            userService.findByEmail(user.getEmail());
             mav = new ModelAndView("misc/error");
-        }catch(NoResultException e) {
-            User user = new User(request.getParameter("email"), request.getParameter("password"));
-            userService saveToDatabase(user);
+        }catch(NoResultException | EmptyResultDataAccessException e ) {
+            //User user = new User(request.getParameter("email"), request.getParameter("password"));
+            userService.saveToDatabase(user);
             mav = new ModelAndView("misc/success");
         }catch(Exception e) {
             System.out.println(e);

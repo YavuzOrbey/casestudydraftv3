@@ -16,6 +16,10 @@ public class Pantry extends BaseModel{
     @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
     private User user;
 
+    public Pantry() {
+        super();
+    }
+
     public Pantry(String name) {
         this.name = name;
     }

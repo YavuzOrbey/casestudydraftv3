@@ -2,8 +2,11 @@ package com.casestudydraft.controller;
 
 import com.casestudydraft.model.Ingredient;
 import com.casestudydraft.model.Measurement;
+import com.casestudydraft.model.Nutrient;
 import com.casestudydraft.service.IngredientService;
+import com.casestudydraft.service.MeasurementService;
 import com.casestudydraft.service.NutrientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("ingredient")
 public class IngredientController {
+    @Autowired NutrientService nutrientService;
+    @Autowired MeasurementService measurementService;
     @ModelAttribute
     public Ingredient setUpIngredient(){
         Ingredient ingredient = new Ingredient();
@@ -28,13 +35,29 @@ public class IngredientController {
         return mav;
     }
 
+    @ModelAttribute("measurements")
+    public ArrayList<Measurement> measurements(){
+
+        List<Measurement> measurements = measurementService.findAll();
+        return (ArrayList<Measurement>) measurements;
+    }
+
+    @ModelAttribute("nutrients")
+    public ArrayList<Nutrient> nutrients(){
+
+        List<Nutrient> nutrients = nutrientService.findAll();
+        return (ArrayList<Nutrient>) nutrients;
+    }
     @RequestMapping(value="/create", method= RequestMethod.GET)
-    public ModelAndView createIngredient(HttpServletRequest request) {
+    public ModelAndView createIngredient(HttpServletRequest request, @ModelAttribute("measurements") ArrayList<Measurement> measurements,
+                                         @ModelAttribute("nutrients")ArrayList<Nutrient> nutrients) {
         ModelAndView mav = null;
-        //get all the nutrients and populate the form with them
+        //get all the measurements + nutrients and populate the form with them
         NutrientService nutrientService = new NutrientService();
         //nutrientService.getAll();
         mav = new ModelAndView("ingredient/create");
+
+
         return mav;
     }
 

@@ -24,11 +24,40 @@ public class Measurement extends BaseModel{
     @OneToMany(mappedBy="measurement")
     private Set<Nutrient> nutrients;
 
+    public Measurement() {
+    }
+
     public Measurement(String name) {
         super();
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Set<Nutrient> getNutrients() {
+        return nutrients;
+    }
+
+    public void setNutrients(Set<Nutrient> nutrients) {
+        this.nutrients = nutrients;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

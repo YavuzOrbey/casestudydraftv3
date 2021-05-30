@@ -8,7 +8,10 @@
         <input id="name" name="name" type="text" placeholder="Ingredient Name" />
     </div>
     <div class="field">
-        <label for="serving">Serving Size</label>
+    <label for="serving">Serving Size</label>
+    <input id="serving" name="servingSize" type="number" placeholder="Serving Size" />
+        <c:forEach items="${measurements}" var="measurement">
+        <%--<label for="serving">Serving Size</label>
         <input id="serving" name="servingSize" type="number" placeholder="Serving Size" />
         <label>Count</label>
         <input type="radio"  name="measurement" value="count">
@@ -21,9 +24,15 @@
         <label>Cups</label>
         <input type="radio"  name="measurement" value="cups">
         <label>Other</label>
-        <input type="radio" name="measurement" value="other">
+        <input type="radio" name="measurement" value="other">--%>
+        <fieldset>
+            <label>${measurement}</label>
+            <input type="radio"  name="measurement" value="${measurement}" />
+        </fieldset>
+        </c:forEach>
     </div>
-    <div class="field">
+    <c:forEach items="${nutrients}" var="nutrient">
+   <%-- <div class="field">
         <label for="calories">Calories Per Serving</label>
         <input id="calories" name="calories" type="number" placeholder="Serving Size" />
     </div>
@@ -69,7 +78,12 @@
     </div>
     <div class="btn">
         <input id="sub" name="submit" type="submit" value="Submit Name" />
+    </div>--%>
+    <div class="field">
+        <label>${nutrient}</label>
+        <input name="${nutrient}" type="number" placeholder="${nutrient} />
     </div>
+    </c:forEach>
 </form:form>
 </body>
 </html>

@@ -2,10 +2,11 @@ package com.casestudydraft.dao;
 
 import com.casestudydraft.model.Role;
 import com.casestudydraft.model.User;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import java.util.List;
-
+@Repository
 public class UserDAOImpl implements UserDAO{
     @Override
     public User findById(int id) {

@@ -19,4 +19,8 @@ public class MealType extends BaseModel{
             inverseJoinColumns = @JoinColumn(name="meal_id")
     )
     Set<Meal> meal;
+
+    public MealType() {
+        super();
+    }
 }
