@@ -11,7 +11,9 @@ public interface GenericDAO<E> extends DatabaseDAO{
         System.out.println("Saved to database!");
     }
     default void updateDatabase(E entity){
+        entityManager.getTransaction().begin();
         entityManager.merge(entity);
+        entityManager.getTransaction().commit();
     }
     default void deleteFromDatabase(E entity) throws IllegalArgumentException{
         entityManager.getTransaction().begin();

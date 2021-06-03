@@ -3,6 +3,7 @@ package com.casestudydraft.service;
 
 import com.casestudydraft.dao.GenericDAO;
 import com.casestudydraft.model.BaseModel;
+import com.casestudydraft.model.Measurement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +19,13 @@ public abstract class GenericService<E extends BaseModel,  T extends GenericDAO<
 
     public void saveToDatabase(E entity){
         dao.saveToDatabase(entity);
+    }
+
+    public void delete(E entity){
+        dao.deleteFromDatabase(entity);
+    }
+
+    public void update(E entity){
+        dao.updateDatabase(entity);
     }
 }

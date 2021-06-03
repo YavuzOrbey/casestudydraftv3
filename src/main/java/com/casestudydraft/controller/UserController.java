@@ -8,7 +8,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.Calendar;
+import java.util.Locale;
 
 @Controller
 public class UserController {
@@ -38,6 +40,13 @@ public class UserController {
 //			theMonth.put(i, firstDayOfMonth.plusDays(i-1).getDayOfWeek());
 //		}
 
+        String[] daysOfWeek = new String[DayOfWeek.values().length];
+        for(int i=0; i<  DayOfWeek.values().length; i++){
+            daysOfWeek[i] = DayOfWeek.values()[i].getDisplayName(TextStyle.FULL, Locale.US);
+        }
+
+        mav.addObject("month_name", firstDayOfMonth.getMonth().name());
+        mav.addObject("daysOfWeek", daysOfWeek);
         mav.addObject("numWeeks", numWeeks);
         mav.addObject("firstDay", firstDay.getValue()+1);
         mav.addObject("lastDay", lastDay.getValue()+1);

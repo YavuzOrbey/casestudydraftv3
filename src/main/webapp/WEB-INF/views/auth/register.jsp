@@ -19,19 +19,22 @@
 <%@include file="../inc/nav.jsp" %>
   <div class="container d-flex justify-content-center ">
     <div id="form" class="p-5 shadow">
-      <form action="register" method="POST">
+      <form:form action="register" method="POST" modelAttribute="user">
         <h3>Register</h3>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" name="email" class="form-control" id="email">
+          <form:input type="email" path="email" class="form-control" id="email" />
+          <form:errors path="email" class='error' />
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" name="password" class="form-control" id="password">
+          <form:input type="password" path="password" class="form-control" id="password">
+          <form:errors path="password" class='error' />
         </div>
         <div class="mb-3">
           <label for="password-again" class="form-label">Confirm Password</label>
-          <input type="password" name="password-again" class="form-control" id="password-again">
+          <input type="password" path="passwordConfirm" class="form-control" id="password-again">
+          <form:errors path="passwordConfirm" class='error' />
         </div>
         <div class='row justify-content-between mb-3'>
           <div class="btn col-md-6"><a href='login'>Already Registered? Sign In here</a> </div>

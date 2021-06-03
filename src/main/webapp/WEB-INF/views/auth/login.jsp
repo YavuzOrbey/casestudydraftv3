@@ -1,4 +1,5 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+ <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,20 +14,28 @@
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+        <style>
+        .error{
+        color: red;
+        }
+        </style>
 </head>
 <body>
+
 <%@include file="../inc/nav.jsp" %>
   <div class="container d-flex justify-content-center ">
     <div id="form" class="p-5 shadow">
-      <form action="/login" method="POST">
+      <form:form action="login" method="POST" modelAttribute="user">
         <h3>Login</h3>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email">
+          <form:input type="email" class="form-control" id="email" path="email" />
+          <form:errors class='error' path="email" />
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password">
+          <form:input type="password" class="form-control" id="password" path="password" />
+          <form:errors class='error' path="password" />
         </div>
         <div class='row justify-content-between mb-3'>
           <div class="form-check col-md-6">
@@ -42,7 +51,7 @@
             <button type="submit" style="background: #4B042B; color: white" class="btn col-md-6">Log in</button>
 
           </div>
-      </form>
+      </form:form>
   </div>
 
   </div>

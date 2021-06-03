@@ -1,22 +1,28 @@
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
+<%@include file="../inc/messages.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<div class="container d-flex justify-content-center ">
-    <div  class="p-5 shadow">
+<div class="container ">
+    <div  class="p-5 ">
       <form method="POST">
         <h3>Create New Nutrient</h3>
         <div class="mb-3">
           <label for="nutrient_name" class="form-label">Nutrient Name</label>
-          <input type="text" name="nutrient_name" class="form-control" id="nutrient_name">
+          <input type="text" name="nutrient" class="form-control" id="nutrient_name">
         </div>
         <div class="mb-3">
-                  <label for="measurement_name" class="form-label">Nutrient Name</label>
-                  <input type="text" name="measurement_name" class="form-control" id="measurement_name">
-                </div>
+            <label>Measured in: </label>
+            <c:forEach items="${measurements}" var="measurement">
+            <fieldset>
+                <label>${measurement.name}</label>
+                <input type="radio"  name="measurement" value="${measurement.id}" />
+            </fieldset>
+            </c:forEach>
+        </div>
         <div class='row justify-content-between mb-3'>
-          <div class="btn col-md-6"><a href=''>Cancel</a> </div>
+          <div class="btn col-md-6"><a href='/nutrient'>Cancel</a> </div>
           <button type="submit" style="background: #4B042B; color: white" class="btn col-md-6">Create!</button>
 
         </div>

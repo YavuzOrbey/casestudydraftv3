@@ -8,6 +8,7 @@ import com.casestudydraft.service.MeasurementService;
 import com.casestudydraft.service.NutrientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,21 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("ingredient")
+@RequestMapping("/ingredient")
 public class IngredientController {
     @Autowired NutrientService nutrientService;
     @Autowired MeasurementService measurementService;
+    @Autowired IngredientService ingredientService;
     @ModelAttribute
     public Ingredient setUpIngredient(){
         Ingredient ingredient = new Ingredient();
         return ingredient;
-    }
-
-    @RequestMapping(method= RequestMethod.GET)
-    public ModelAndView viewAllIngredients(HttpServletRequest request) {
-        ModelAndView mav = null;
-        mav = new ModelAndView("ingredient/index");
-        return mav;
     }
 
     @ModelAttribute("measurements")
@@ -48,25 +43,43 @@ public class IngredientController {
         List<Nutrient> nutrients = nutrientService.findAll();
         return (ArrayList<Nutrient>) nutrients;
     }
+
+    @ModelAttribute("ingredients")
+    public ArrayList<Ingredient> ingredients(){
+        List<Ingredient> ingredients = ingredientService.findAll();
+        return (ArrayList<Ingredient>) ingredients;
+    }
+    @RequestMapping(value="", method= RequestMethod.GET)
+    public String redirectToMain(){
+        return "redirect:ingredient/";
+    }
+    @RequestMapping(value="/", method= RequestMethod.GET)
+    public ModelAndView viewAllIngredients(HttpServletRequest request) {
+        ModelAndView mav = null;
+        mav = new ModelAndView("ingredient/index");
+        return mav;
+    }
     @RequestMapping(value="/create", method= RequestMethod.GET)
-    public ModelAndView createIngredient(HttpServletRequest request, @ModelAttribute("measurements") ArrayList<Measurement> measurements,
+    public ModelAndView createIngredient(HttpServletRequest request,
+                                         @ModelAttribute("measurements") ArrayList<Measurement> measurements,  BindingResult result,
                                          @ModelAttribute("nutrients")ArrayList<Nutrient> nutrients) {
         ModelAndView mav = null;
-        //get all the measurements + nutrients and populate the form with them
-        NutrientService nutrientService = new NutrientService();
-        //nutrientService.getAll();
         mav = new ModelAndView("ingredient/create");
-
-
         return mav;
     }
 
     @RequestMapping(value="/create", method= RequestMethod.POST)
-    public ModelAndView storeIngredient(HttpServletRequest request, @ModelAttribute("ingredient") Ingredient ingredient) {
+    public ModelAndView storeIngredient(HttpServletRequest request, @ModelAttribute("ingredient") Ingredient ingredient, BindingResult result) {
 //        Measurement measurement = new Measurement(request.getParameter("measurement"));
-        IngredientService ingredientService = new IngredientService();
-        ingredientService.saveToDatabase(ingredient);
-        System.out.println(ingredient.getId());
+        System.out.println(ingredient.getNutrients());
+
+        //what needs to happen?
+
+        //need to get nutrient ids and ingredient id and match them in the respective database table
+
+
+//        ingredientService.saveToDatabase(ingredient);
+//        System.out.println(ingredient.getId());
         ModelAndView mav = new ModelAndView("misc/success");
         return mav;
         //the only reason I'm using the request is to get these params so lets change it to modelattribute way of doing it

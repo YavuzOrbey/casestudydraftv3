@@ -16,19 +16,25 @@
 </head>
 <body>
 <%@include file="../inc/nav.jsp" %>
-  <div class="container d-flex justify-content-center ">
+  <div class="container  ">
         <h1>Admin View</h1>
-        <button id="addEntityBtn">Add New Measurement</button>
+        <a href="create"><button id="addEntityBtn">Add New Ingredient</button></a>
         <table class='table'>
             <thead>
                 <tr>
-                    <th>Measurement</th>
+                    <th>Ingredient</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
-
+            <c:forEach items="${ingredients}" var="ingredients">
+                <tr>
+                    <td>${measurement.name}</td>
+                    <td><a href="edit/${measurement.id}"><button ><i class="fas fa-edit text-primary"></i></button></a></td>
+                     <td><a href="delete/${measurement.id}"><button ><i class="fas fa-trash text-danger"></i></button></a></td>
+                </tr>
+                </c:forEach>
                 <tr>
                     <td><a href="showRecipe.html">Measurement 1</td>
                     <td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>

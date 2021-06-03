@@ -6,18 +6,26 @@ import com.casestudydraft.dao.UserDAOImpl;
 import com.casestudydraft.model.Measurement;
 import com.casestudydraft.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 @Service
 public class MeasurementService extends GenericService<Measurement, MeasurementDAOImpl> {
 
-
     public List<Measurement> findAll() {
-        System.out.println(dao);
         return dao.findAll();
     }
-    public Measurement findByName(String name) {
+    public Measurement findByName(String name) throws NoResultException {
         return dao.findByName(name);
     }
+    public void delete(Measurement measurement){
+        dao.deleteFromDatabase(measurement);
+    }
+
+    public void update(Measurement measurement){
+        dao.updateDatabase(measurement);
+    }
+
 }

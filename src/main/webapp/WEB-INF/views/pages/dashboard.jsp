@@ -1,11 +1,12 @@
 <%@include file="../inc/head.jsp" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <title>Calendar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
     <style>
         body{
 
@@ -30,6 +31,10 @@
         .out-of-month{
             background-color: gray;
         }
+        h4 ~ p a {
+            text-decoration: none;
+            color: #4f67a9;
+        }
     </style>
 </head>
 <body>
@@ -37,17 +42,26 @@
     <div class="container">
         <div class="calendar-header">
             <i class="fas fa-arrow-circle-left" style="float: left; "></i>
-            <h4>March 2021</h4>
+            <h4>${month_name} 2021</h4>
             <i class="fas fa-arrow-circle-right" style="float: right;"></i>
         </div>
         <div class="main-area">
             <div class='container'>
             <% boolean start=false; %>
+            <div class='row'>
+            <c:forEach items="${daysOfWeek}" var="dayOfWeek" >
+                <div class="col-12 col-md m-1">
+                    <h4>${dayOfWeek}</h4>
+                </div>
+            </c:forEach>
+            </div>
 			<c:forEach begin="1" end="${numWeeks}" var="weekNumber" varStatus="row">
 				<div class='row'>
 				<c:forEach begin="1" end="7" var="dayOfWeek" varStatus="column">
 	                <div class="col-12 col-md m-1 ${(dayOfWeek>=firstDay || weekNumber > 1) && (weekNumber < numWeeks  || dayOfWeek<=lastDay) ? "": "out-of-month"}">
-	                    <h4>${weekNumber*dayOfWeek}</h4>
+	                    <h4>${(column.index+(row.index-1)*7)-(firstDay-1)}</h4>
+	                    <p><a href='#'>Lorem</a></p>
+	                    <p><a href='#'>Ipsum</a></p>
 	                </div>
 	            </c:forEach>
 				</div>

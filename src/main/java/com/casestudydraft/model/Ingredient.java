@@ -2,7 +2,8 @@ package com.casestudydraft.model;
 
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="ingredient")
@@ -22,10 +23,10 @@ public class Ingredient extends BaseModel{
     private String name;
 
     @ManyToMany(mappedBy = "ingredients")
-    private Set<Measurement> measurements;
+    private List<Measurement> measurements;
 
     @ManyToMany(mappedBy = "ingredients")
-    private Set<Nutrient> nutrients;
+    private List<Nutrient> nutrients;
 
 
     public Ingredient() {
@@ -68,11 +69,11 @@ public class Ingredient extends BaseModel{
         this.calories = calories;
     }
 
-    public Set<Nutrient> getNutrients() {
+    public List<Nutrient> getNutrients() {
         return nutrients;
     }
 
-    public void setNutrients(Set<Nutrient> nutrients) {
+    public void setNutrients(List<Nutrient> nutrients) {
         this.nutrients = nutrients;
     }
 

@@ -2,8 +2,9 @@ package com.casestudydraft.model;
 
 
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import java.sql.Timestamp;
-
+@MappedSuperclass
 public abstract class BaseModel {
 
     @Column(name = "created_on")

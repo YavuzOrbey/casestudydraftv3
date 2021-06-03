@@ -1,6 +1,9 @@
 package com.casestudydraft.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Set;
+
 @Entity
 @Table(name="pantry")
 public class Pantry extends BaseModel{
@@ -16,6 +19,13 @@ public class Pantry extends BaseModel{
     @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
     private User user;
 
+    @ManyToMany
+    @JoinTable(
+            joinColumns = @JoinColumn(name="pantry_id"),
+            inverseJoinColumns = @JoinColumn(name="ingredient_id")
+    )
+    private Set<Ingredient> ingredients;
+
     public Pantry() {
         super();
     }
@@ -24,4 +34,27 @@ public class Pantry extends BaseModel{
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
 }

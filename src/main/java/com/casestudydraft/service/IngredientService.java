@@ -1,19 +1,25 @@
 package com.casestudydraft.service;
 
 import com.casestudydraft.dao.IngredientDAO;
+import com.casestudydraft.dao.IngredientDAOImpl;
+import com.casestudydraft.dao.MeasurementDAOImpl;
 import com.casestudydraft.model.Ingredient;
+import com.casestudydraft.model.Measurement;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class IngredientService implements IngredientDAO {
-    @Override
+public class IngredientService extends GenericService<Ingredient, IngredientDAOImpl> {
     public Ingredient findById(int id) {
-        return null;
+        return dao.findById(id);
     }
 
-    @Override
+
     public List<Ingredient> findAll() {
-        return null;
+        return dao.findAll();
+    }
+
+    public Ingredient findByName(String name) {
+        return dao.findByName(name);
     }
 }

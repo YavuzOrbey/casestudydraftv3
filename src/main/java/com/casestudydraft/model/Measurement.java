@@ -1,7 +1,7 @@
 package com.casestudydraft.model;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name="measurement")
@@ -19,10 +19,10 @@ public class Measurement extends BaseModel{
             joinColumns = @JoinColumn(name="measurement_id"),
             inverseJoinColumns = @JoinColumn(name="ingredient_id")
     )
-    private Set<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
 
     @OneToMany(mappedBy="measurement")
-    private Set<Nutrient> nutrients;
+    private List<Nutrient> nutrients;
 
     public Measurement() {
     }
@@ -30,6 +30,14 @@ public class Measurement extends BaseModel{
     public Measurement(String name) {
         super();
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -40,24 +48,27 @@ public class Measurement extends BaseModel{
         this.name = name;
     }
 
-    public Set<Ingredient> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Set<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public Set<Nutrient> getNutrients() {
+    public List<Nutrient> getNutrients() {
         return nutrients;
     }
 
-    public void setNutrients(Set<Nutrient> nutrients) {
+    public void setNutrients(List<Nutrient> nutrients) {
         this.nutrients = nutrients;
     }
 
     @Override
     public String toString() {
-        return this.name;
+        return "Measurement{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

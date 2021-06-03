@@ -68,7 +68,7 @@ public class UserService extends GenericService<User, UserDAOImpl> {
         return user.getRoles().contains(role);
     }
 
-    public boolean validateUser(User user, String password) {
-        return user.getPassword().equals(password);
+    public boolean validateUser(User user) throws NoResultException{
+        return dao.validateUser(user);
     }
 }

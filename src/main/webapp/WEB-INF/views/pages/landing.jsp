@@ -39,7 +39,7 @@
       object-fit: contain;
     }
     </style>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
     <!-- External Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">

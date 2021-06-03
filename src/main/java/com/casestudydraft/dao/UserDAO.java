@@ -10,5 +10,6 @@ public interface UserDAO extends GenericDAO<User> {
 
         User findByEmail(String email);
         List<User> findByRole(Role role);
+        boolean validateUser(User user);
     }
 
