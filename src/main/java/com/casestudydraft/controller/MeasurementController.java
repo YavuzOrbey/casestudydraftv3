@@ -53,6 +53,7 @@ public class MeasurementController {
         }
         catch(NoResultException e) {
             Measurement measurement = new Measurement(request.getParameter("measurement_name").toLowerCase());
+            System.out.println(measurement);
             measurementService.saveToDatabase(measurement);
             mav = new ModelAndView("measurement/create");
             mav.addObject("message", "Successfully added!");

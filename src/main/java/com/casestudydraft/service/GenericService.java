@@ -17,8 +17,8 @@ public abstract class GenericService<E extends BaseModel,  T extends GenericDAO<
         return dao.findById(id);
     }
 
-    public void saveToDatabase(E entity){
-        dao.saveToDatabase(entity);
+    public E saveToDatabase(E entity){
+        return dao.saveToDatabase(entity);
     }
 
     public void delete(E entity){

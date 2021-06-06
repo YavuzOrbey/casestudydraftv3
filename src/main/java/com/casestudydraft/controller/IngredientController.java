@@ -1,13 +1,18 @@
 package com.casestudydraft.controller;
 
 import com.casestudydraft.model.Ingredient;
+import com.casestudydraft.model.IngredientNutrient;
 import com.casestudydraft.model.Measurement;
 import com.casestudydraft.model.Nutrient;
+import com.casestudydraft.service.IngredientNutrientService;
 import com.casestudydraft.service.IngredientService;
 import com.casestudydraft.service.MeasurementService;
 import com.casestudydraft.service.NutrientService;
+import com.casestudydraft.tools.FormHelper;
+import com.casestudydraft.tools.KeyValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/ingredient")
@@ -24,6 +31,8 @@ public class IngredientController {
     @Autowired NutrientService nutrientService;
     @Autowired MeasurementService measurementService;
     @Autowired IngredientService ingredientService;
+    @Autowired
+    IngredientNutrientService ingredientNutrientService;
     @ModelAttribute
     public Ingredient setUpIngredient(){
         Ingredient ingredient = new Ingredient();
@@ -54,7 +63,7 @@ public class IngredientController {
         return "redirect:ingredient/";
     }
     @RequestMapping(value="/", method= RequestMethod.GET)
-    public ModelAndView viewAllIngredients(HttpServletRequest request) {
+    public ModelAndView viewAllIngredients(HttpServletRequest request,  @ModelAttribute("ingredients") ArrayList<Ingredient> ingredients) {
         ModelAndView mav = null;
         mav = new ModelAndView("ingredient/index");
         return mav;
@@ -64,21 +73,53 @@ public class IngredientController {
                                          @ModelAttribute("measurements") ArrayList<Measurement> measurements,  BindingResult result,
                                          @ModelAttribute("nutrients")ArrayList<Nutrient> nutrients) {
         ModelAndView mav = null;
-        mav = new ModelAndView("ingredient/create");
+        Map<String, KeyValuePair> nutrientMap = new HashMap<String, KeyValuePair>();
+        for(int i=0; i<nutrients.size(); i++){
+            nutrientMap.put(nutrients.get(i).getName(), new KeyValuePair(nutrients.get(i).getId(), 0));
+        }
+
+        System.out.println(nutrientMap);
+        FormHelper nutrientForm = new FormHelper();
+        nutrientForm.setNutrientMap(nutrientMap);
+
+        mav = new ModelAndView("ingredient/create", "nutrientForm", nutrientForm);
         return mav;
     }
-
+    @Transactional
     @RequestMapping(value="/create", method= RequestMethod.POST)
-    public ModelAndView storeIngredient(HttpServletRequest request, @ModelAttribute("ingredient") Ingredient ingredient, BindingResult result) {
+    public ModelAndView storeIngredient(HttpServletRequest request,
+                                        @ModelAttribute("ingredient") Ingredient ingredient, BindingResult result,
+                                        @ModelAttribute("nutrientForm") FormHelper formHelper) {
+        System.out.println(formHelper);
+//         Map<String, KeyValuePair> theMap =  formHelper.getNutrientMap();
+//        System.out.println(formHelper);
+//         theMap.forEach((e,y)-> System.out.println(theMap.get(e)));
+//
+//        Ingredient savedIngredient = ingredientService.saveToDatabase(ingredient);
+//        formHelper.getNutrientMap().forEach((key,value)->{
+//            IngredientNutrient ingredientNutrient = new IngredientNutrient();
+//            ingredientNutrient.setIngredient(savedIngredient);
+//            ingredientNutrient.setNutrient( nutrientService.findById(key));
+//            ingredientNutrient.setAmount(value);
+//            ingredientNutrientService.saveToDatabase(ingredientNutrient);
+//        });
+//
 //        Measurement measurement = new Measurement(request.getParameter("measurement"));
-        System.out.println(ingredient.getNutrients());
-
+       // System.out.println(ingredient.getNutrients()); //from trying to bind that form to that list
+//        Nutrient nutrient = nutrientService.findById(1);
+//        savedIngredient.getNutrients().add(nutrient);
+//        ingredientService.mapNutrientsToIngredient(savedIngredient, nutrientService.findAll() );
+//        ingredientService.saveToDatabase(ingredient);
         //what needs to happen?
 
         //need to get nutrient ids and ingredient id and match them in the respective database table
+        //save ingredient to database then
 
+//        ingredient.setNutrients(nutrientService.findAll());
+//        System.out.println(ingredient);
+//        Ingredient savedIngredient = ingredientService.saveToDatabase(ingredient);
 
-//        ingredientService.saveToDatabase(ingredient);
+        //ingredientService.
 //        System.out.println(ingredient.getId());
         ModelAndView mav = new ModelAndView("misc/success");
         return mav;

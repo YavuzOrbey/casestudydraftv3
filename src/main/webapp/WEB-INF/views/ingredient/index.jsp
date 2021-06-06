@@ -1,21 +1,7 @@
-<%@page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
-    crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-        <!-- External Fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
-</head>
-<body>
+<%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
   <div class="container  ">
         <h1>Admin View</h1>
         <a href="create"><button id="addEntityBtn">Add New Ingredient</button></a>
@@ -28,14 +14,14 @@
                 </tr>
             </thead>
             <tbody>
-            <c:forEach items="${ingredients}" var="ingredients">
+            <c:forEach items="${ingredients}" var="ingredient">
                 <tr>
-                    <td>${measurement.name}</td>
-                    <td><a href="edit/${measurement.id}"><button ><i class="fas fa-edit text-primary"></i></button></a></td>
-                     <td><a href="delete/${measurement.id}"><button ><i class="fas fa-trash text-danger"></i></button></a></td>
+                    <td>${ingredient.name}</td>
+                    <td><a href="edit/${ingredient.id}"><button ><i class="fas fa-edit text-primary"></i></button></a></td>
+                     <td><a href="delete/${ingredient.id}"><button ><i class="fas fa-trash text-danger"></i></button></a></td>
                 </tr>
                 </c:forEach>
-                <tr>
+                <%--<tr>
                     <td><a href="showRecipe.html">Measurement 1</td>
                     <td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>
                     <td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>
@@ -44,12 +30,9 @@
                     <td>Nutrient 2</td>
                     <td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>
                 	<td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>
-                </tr>
+                </tr>--%>
 
             </tbody>
         </table>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-
-</body>
-</html>
+<%@include file="../inc/foot.jsp" %>

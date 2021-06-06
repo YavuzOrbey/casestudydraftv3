@@ -32,7 +32,7 @@
             <h6>Ingredients</h6>
             <ul class='col-md-3 list-unstyled'>
 
-              <li ><a href="${pageContext.request.contextPath}/measurement" class='link-secondary text-decoration-none'>Browse</a></li>
+              <li ><a href="${pageContext.request.contextPath}/ingredient" class='link-secondary text-decoration-none'>Browse</a></li>
               <li ><a href="${pageContext.request.contextPath}/measurement" class='link-secondary text-decoration-none'>Search</a></li>
             </ul>
           </div>

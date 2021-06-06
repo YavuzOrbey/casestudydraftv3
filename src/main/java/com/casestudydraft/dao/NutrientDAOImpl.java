@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Set;
+
 @Repository
 public class NutrientDAOImpl implements NutrientDAO{
     @Override
@@ -18,7 +20,7 @@ public class NutrientDAOImpl implements NutrientDAO{
     @Override
     public List<Nutrient> findAll() {
         Query q = entityManager.createQuery("SELECT n FROM Nutrient n");
-        return q.getResultList();
+        return (List<Nutrient>) q.getResultList();
     }
     @Override
     public Nutrient findByName(String name) throws NoResultException {

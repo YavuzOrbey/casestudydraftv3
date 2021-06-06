@@ -4,6 +4,7 @@ package com.casestudydraft.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="ingredient")
@@ -24,10 +25,11 @@ public class Ingredient extends BaseModel{
 
     @ManyToMany(mappedBy = "ingredients")
     private List<Measurement> measurements;
-
-    @ManyToMany(mappedBy = "ingredients")
-    private List<Nutrient> nutrients;
-
+    
+    @OneToMany(mappedBy = "ingredient", cascade = {
+            CascadeType.ALL
+    })
+    private List<IngredientNutrient> ingredientNutrients;
 
     public Ingredient() {
         super();
@@ -69,13 +71,27 @@ public class Ingredient extends BaseModel{
         this.calories = calories;
     }
 
-    public List<Nutrient> getNutrients() {
-        return nutrients;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setNutrients(List<Nutrient> nutrients) {
-        this.nutrients = nutrients;
+    public List<IngredientNutrient> getIngredientNutrients() {
+        return ingredientNutrients;
     }
 
+    public void setIngredientNutrients(List<IngredientNutrient> ingredientNutrients) {
+        this.ingredientNutrients = ingredientNutrients;
+    }
 
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id=" + id +
+                ", servingSize=" + servingSize +
+                ", calories=" + calories +
+                ", name='" + name + '\'' +
+                ", measurements=" + measurements +
+                ", ingredientNutrients=" + ingredientNutrients +
+                '}';
+    }
 }

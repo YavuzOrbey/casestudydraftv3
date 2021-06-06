@@ -15,13 +15,10 @@ public class Nutrient extends BaseModel{
     @Column(name="name", nullable=false)
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            joinColumns = @JoinColumn(name="nutrient_id"),
-            inverseJoinColumns = @JoinColumn(name="ingredient_id")
-    )
-    private List<Ingredient> ingredients;
-
+    @OneToMany(mappedBy = "nutrient", cascade = {
+            CascadeType.ALL
+    })
+    private List<IngredientNutrient> ingredientNutrients = new ArrayList<>();;
     @ManyToOne
     @JoinColumn(nullable=false)
     private Measurement measurement;
@@ -53,13 +50,6 @@ public class Nutrient extends BaseModel{
         this.name = name;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
 
     public Measurement getMeasurement() {
         return measurement;
@@ -69,12 +59,19 @@ public class Nutrient extends BaseModel{
         this.measurement = measurement;
     }
 
+    public List<IngredientNutrient> getIngredientNutrients() {
+        return ingredientNutrients;
+    }
+
+    public void setIngredientNutrients(List<IngredientNutrient> ingredientNutrients) {
+        this.ingredientNutrients = ingredientNutrients;
+    }
+
     @Override
     public String toString() {
         return "Nutrient{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", ingredients=" + ingredients +
                 ", measurement=" + measurement +
                 '}';
     }

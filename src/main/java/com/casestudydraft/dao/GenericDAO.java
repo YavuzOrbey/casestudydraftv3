@@ -4,11 +4,12 @@ import java.util.List;
 
 public interface GenericDAO<E> extends DatabaseDAO{
     E findById(int id);
-    default void saveToDatabase(E entity){
+
+    default E saveToDatabase(E entity){
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
         entityManager.getTransaction().commit();
-        System.out.println("Saved to database!");
+        return entity;
     }
     default void updateDatabase(E entity){
         entityManager.getTransaction().begin();
