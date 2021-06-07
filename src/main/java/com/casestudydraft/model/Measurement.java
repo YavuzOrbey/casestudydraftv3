@@ -13,15 +13,15 @@ public class Measurement extends BaseModel{
 
     @Column(name="name", nullable=false)
     private String name;
-
+/*
     @ManyToMany
     @JoinTable(
             joinColumns = @JoinColumn(name="measurement_id"),
             inverseJoinColumns = @JoinColumn(name="ingredient_id")
     )
-    private List<Ingredient> ingredients;
+    private List<Ingredient> ingredients;*/
 
-    @OneToMany(mappedBy="measurement")
+    @OneToMany(mappedBy="measurement", orphanRemoval=true, cascade = CascadeType.ALL)
     private List<Nutrient> nutrients;
 
     public Measurement() {
@@ -48,13 +48,13 @@ public class Measurement extends BaseModel{
         this.name = name;
     }
 
-    public List<Ingredient> getIngredients() {
+/*    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
-    }
+    }*/
 
     public List<Nutrient> getNutrients() {
         return nutrients;

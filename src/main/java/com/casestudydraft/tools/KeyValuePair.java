@@ -1,8 +1,11 @@
 package com.casestudydraft.tools;
 
-public class KeyValuePair<E, T> {
+import javax.validation.constraints.Min;
 
+public class KeyValuePair<E, T> {
+    @Min(0)
     private E first;
+    @Min(0)
     private T second;
 
     public KeyValuePair() {

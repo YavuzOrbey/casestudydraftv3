@@ -32,8 +32,8 @@ public class Ingredient extends BaseModel{
     @NotEmpty(message="Required")
     private String name;
 
-    @ManyToMany(mappedBy = "ingredients")
-    private List<Measurement> measurements;
+    @ManyToOne
+    private Measurement measurement;
     
     @OneToMany(mappedBy = "ingredient", cascade = {
             CascadeType.ALL
@@ -92,12 +92,12 @@ public class Ingredient extends BaseModel{
         this.ingredientNutrients = ingredientNutrients;
     }
 
-    public List<Measurement> getMeasurements() {
-        return measurements;
+    public Measurement getMeasurement() {
+        return measurement;
     }
 
-    public void setMeasurements(List<Measurement> measurements) {
-        this.measurements = measurements;
+    public void setMeasurement(Measurement measurement) {
+        this.measurement = measurement;
     }
 
     @Override

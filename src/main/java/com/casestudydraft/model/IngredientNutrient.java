@@ -10,11 +10,11 @@ public class IngredientNutrient extends BaseModel {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "nutrient_id")
     private Nutrient nutrient;
 
@@ -22,6 +22,10 @@ public class IngredientNutrient extends BaseModel {
     private int amount;
 
     public IngredientNutrient() {
+    }
+
+    public IngredientNutrient(Nutrient nutrient){
+        this.nutrient = nutrient;
     }
 
     public int getId() {

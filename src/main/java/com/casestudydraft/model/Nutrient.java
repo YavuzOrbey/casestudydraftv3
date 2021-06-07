@@ -19,6 +19,7 @@ public class Nutrient extends BaseModel{
             CascadeType.ALL
     })
     private List<IngredientNutrient> ingredientNutrients = new ArrayList<>();;
+
     @ManyToOne
     @JoinColumn(nullable=false)
     private Measurement measurement;
