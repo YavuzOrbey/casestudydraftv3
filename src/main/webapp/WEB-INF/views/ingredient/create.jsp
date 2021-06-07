@@ -2,33 +2,48 @@
 <%@include file="../inc/nav.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<form:form  method="POST" modelAttribute="ingredient" class='container'>
+<form:form  method="POST" modelAttribute="form" class='container'>
     <div class="mb-3">
         <label for="name" class='form-label'>Ingredient Name</label>
-        <form:input id="name" type="text" class='form-control' placeholder="Ingredient Name" path="name"/>
+        <form:input id="name" type="text" class='form-control' placeholder="Ingredient Name" path="ingredient.name"/>
+        <form:errors path="ingredient.name" class='form-error' />
     </div>
     <div class="mb-3">
         <label for="serving"  class='form-label'>Serving Size</label>
-        <form:input id="serving" class='form-control' path="servingSize" type="number" placeholder="Serving Size" />
+        <form:input id="serving" class='form-control' path="ingredient.servingSize" type="number" placeholder="Serving Size" />
+        <form:errors path="ingredient.servingSize" class='form-error' />
     </div>
 
     <div class='form-check form-check-inline mb-3'>
         <c:forEach items="${measurements}" var="measurement">
             <label class='form-label'>${measurement.name}</label>
-            <input type="radio" class='' name="measurement" value="${measurement.id}" />
+            <input type="radio" id="serving"  name="measurement" value="${measurement.id}" placeholder="Serving Size" />
+            <%--<input type="radio" class='' name="form.ingredient.measurement" value="${measurement.id}" />--%>
         </c:forEach>
     </div>
     <div class="mb-3">
                 <label for="calories"  class='form-label'>Calories per Serving</label>
-                <input id="calories" class='form-control' name="calories" type="number" placeholder="Calories" />
+                <form:input id="calories" class='form-control' path="ingredient.calories" type="number" placeholder="Calories" />
+                <%--<input id="calories" class='form-control' name="calories" type="number" placeholder="Calories" />--%>
     </div>
     <div class="mb-3">
-         <c:forEach items="${nutrientForm.nutrientMap}" var="nutrientMap" varStatus="currentNutrientIndex">
+
+    <%--<!-- HARDEST THING I had to DO ALL ASSIGNMENT SO FAR 6/4/21 -6/6/21 2 FULL DAYS -->--%>
+         <c:forEach items="${form.nutrientList}" var="currentNutrient" varStatus="currentNutrientIndex">
         <div>
             <%--<label  class='form-label'>${nutrient.name } (${nutrient.measurement.name}) </label>
             <form:input class='form-control' path="nutrients[${currentNutrient.index}].id" type="text" placeholder="value"/>--%>
-              <label>${currentNutrient.key}</label>
-              <input class='form-control' name="nutrientMap['${nutrientMap.key}']" placeholder="value"/>
+            <label>${currentNutrient.first.name} (${currentNutrient.first.measurement.name})</label>
+            <form:input class='form-control' path="nutrientAmounts[${currentNutrientIndex.index}].second" placeholder="value"/>
+            <form:hidden path="nutrientAmounts[${currentNutrientIndex.index}].first" value="${currentNutrient.first.id}" />
+            <%--
+              <label>${currentNutrient.key} - (${currentNutrient.value.first.measurement.name})</label>
+              <form:input class='form-control' path="nutrientMap[${currentNutrient.key}].second" placeholder="value"/>
+              <form:hidden  path="nutrientMap[${currentNutrient.key}].first" value="${currentNutrient.value.first}"/>--%>
+              <%--<form:input class='form-control' path="nutrientMap[${currentNutrient.key}].second" placeholder="value"/>
+              <form:hidden  path="nutrientMap[${currentNutrient.key}].first" value="${currentNutrient.value.first}"/>--%>
+             <%-- <form:input class='form-control' path="nutrientMap[${nutrientMap.key}].value" placeholder="value"/>--%>
+              <%-- <form:hidden  path="nutrientMap[${nutrientMap.key}].key" value="nutrientMap[${nutrientMap.key}].key"/>--%>
               <%--<form:input path="ingredientNutrients[${currentNutrientIndex.index}].amount"/>
               <form:hidden path = "ingredientNutrients[${currentNutrientIndex.index}].nutrient.id" value = "${currentNutrient.value.key}" />
               <form:hidden path = "ingredientNutrients[${currentNutrientIndex.index}].nutrient.name" value = "${currentNutrient.key}" />--%>

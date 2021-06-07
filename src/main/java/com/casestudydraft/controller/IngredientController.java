@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +59,11 @@ public class IngredientController {
         List<Ingredient> ingredients = ingredientService.findAll();
         return (ArrayList<Ingredient>) ingredients;
     }
+
+    @ModelAttribute("form")
+    public FormHelper form(){
+        return new FormHelper();
+    }
     @RequestMapping(value="", method= RequestMethod.GET)
     public String redirectToMain(){
         return "redirect:ingredient/";
@@ -71,37 +77,62 @@ public class IngredientController {
     @RequestMapping(value="/create", method= RequestMethod.GET)
     public ModelAndView createIngredient(HttpServletRequest request,
                                          @ModelAttribute("measurements") ArrayList<Measurement> measurements,  BindingResult result,
-                                         @ModelAttribute("nutrients")ArrayList<Nutrient> nutrients) {
+                                         @ModelAttribute("nutrients")ArrayList<Nutrient> nutrients,
+                                         @ModelAttribute("form") FormHelper formHelper) {
+        //todo fix all of this if there is time
         ModelAndView mav = null;
-        Map<String, KeyValuePair> nutrientMap = new HashMap<String, KeyValuePair>();
+        /*Map<String, KeyValuePair<Nutrient, Integer>> nutrientMap = new HashMap<String, KeyValuePair<Nutrient, Integer>>();
         for(int i=0; i<nutrients.size(); i++){
-            nutrientMap.put(nutrients.get(i).getName(), new KeyValuePair(nutrients.get(i).getId(), 0));
+            nutrientMap.put(nutrients.get(i).getName(),
+                    new  KeyValuePair<Nutrient, Integer>(nutrients.get(i), 0)); //second number will be the amount
         }
+        formHelper.setNutrientMap(nutrientMap);
+        System.out.println(formHelper.getNutrientMap());*/
 
-        System.out.println(nutrientMap);
-        FormHelper nutrientForm = new FormHelper();
-        nutrientForm.setNutrientMap(nutrientMap);
+        List<KeyValuePair<Nutrient, Integer>> nutrientAndAmountList = new ArrayList<>();
+        for(int i=0; i<nutrients.size(); i++){
+            nutrientAndAmountList.add(new KeyValuePair<>(nutrients.get(i), 0));
+        }
+        formHelper.setNutrientList(nutrientAndAmountList);
+        System.out.println(formHelper);
 
-        mav = new ModelAndView("ingredient/create", "nutrientForm", nutrientForm);
+        mav = new ModelAndView("ingredient/create");
         return mav;
     }
     @Transactional
     @RequestMapping(value="/create", method= RequestMethod.POST)
     public ModelAndView storeIngredient(HttpServletRequest request,
-                                        @ModelAttribute("ingredient") Ingredient ingredient, BindingResult result,
-                                        @ModelAttribute("nutrientForm") FormHelper formHelper) {
-        System.out.println(formHelper);
-//         Map<String, KeyValuePair> theMap =  formHelper.getNutrientMap();
-//        System.out.println(formHelper);
-//         theMap.forEach((e,y)-> System.out.println(theMap.get(e)));
-//
-//        Ingredient savedIngredient = ingredientService.saveToDatabase(ingredient);
-//        formHelper.getNutrientMap().forEach((key,value)->{
-//            IngredientNutrient ingredientNutrient = new IngredientNutrient();
-//            ingredientNutrient.setIngredient(savedIngredient);
-//            ingredientNutrient.setNutrient( nutrientService.findById(key));
+                                        @Valid @ModelAttribute("form") FormHelper formHelper,
+                                        BindingResult result) {
+        Ingredient savedIngredient = ingredientService.saveToDatabase(formHelper.getIngredient());
+        List<KeyValuePair<String, String>> nutrientAmounts = formHelper.getNutrientAmounts();
+       // Map<String,  KeyValuePair<Nutrient, Integer>> theMap =  formHelper.getNutrientMap();
+     //  System.out.println(theMap);
+
+        /* formHelper.getNutrientAmounts().forEach(keyValuePair->{
+            IngredientNutrient ingredientNutrient = new IngredientNutrient();
+            ingredientNutrient.setIngredient(savedIngredient);
+            Nutrient nutrient = nutrientService.findById(keyValuePair.getFirst());
+            ingredientNutrient.setNutrient(nutrient); // the first will be the nutrient
+            ingredientNutrient.setAmount(keyValuePair.getSecond()); //second will be the amount
+            //ingredientNutrientService.saveToDatabase(ingredientNutrient);
+            savedIngredient.getIngredientNutrients().add(ingredientNutrient);
+        });
+
+     */
+        for(int i=0; i<nutrientAmounts.size(); i++){
+            IngredientNutrient ingredientNutrient = new IngredientNutrient();
+            ingredientNutrient.setIngredient(savedIngredient);
+            Nutrient nutrient = nutrientService.findById( Integer.parseInt(nutrientAmounts.get(i).getFirst()));
+            ingredientNutrient.setNutrient(nutrient); // the first will be the nutrient
+            ingredientNutrient.setAmount(Integer.parseInt(nutrientAmounts.get(i).getSecond())); //second will be the amount
+            ingredientNutrientService.saveToDatabase(ingredientNutrient);
+        }
+
+        System.out.println(savedIngredient);
+//*/
 //            ingredientNutrient.setAmount(value);
-//            ingredientNutrientService.saveToDatabase(ingredientNutrient);
+//
 //        });
 //
 //        Measurement measurement = new Measurement(request.getParameter("measurement"));

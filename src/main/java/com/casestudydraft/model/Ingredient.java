@@ -2,6 +2,10 @@ package com.casestudydraft.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,15 +16,20 @@ public class Ingredient extends BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
 
     @Column(name="serving_size")
-    private int servingSize;
+    @NotNull(message = "Required")
+    @Min(1)
+    private Integer servingSize;
 
     @Column(name="calories")
-    private int calories;
+    @NotNull(message = "Required")
+    @Min(0)
+    private Integer calories;
 
     @Column(name="name")
+    @NotEmpty(message="Required")
     private String name;
 
     @ManyToMany(mappedBy = "ingredients")
@@ -29,13 +38,13 @@ public class Ingredient extends BaseModel{
     @OneToMany(mappedBy = "ingredient", cascade = {
             CascadeType.ALL
     })
-    private List<IngredientNutrient> ingredientNutrients;
+    private List<IngredientNutrient> ingredientNutrients = new ArrayList<>();
 
     public Ingredient() {
         super();
     }
 
-    public Ingredient(String name, int servingSize, int calories) {
+    public Ingredient(String name, Integer servingSize, Integer calories) {
         super();
         this.name = name;
         this.servingSize = servingSize;
@@ -43,7 +52,7 @@ public class Ingredient extends BaseModel{
     }
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -55,23 +64,23 @@ public class Ingredient extends BaseModel{
         this.name = name;
     }
 
-    public int getServingSize() {
+    public Integer getServingSize() {
         return servingSize;
     }
 
-    public void setServingSize(int servingSize) {
+    public void setServingSize(Integer servingSize) {
         this.servingSize = servingSize;
     }
 
-    public int getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -83,6 +92,14 @@ public class Ingredient extends BaseModel{
         this.ingredientNutrients = ingredientNutrients;
     }
 
+    public List<Measurement> getMeasurements() {
+        return measurements;
+    }
+
+    public void setMeasurements(List<Measurement> measurements) {
+        this.measurements = measurements;
+    }
+
     @Override
     public String toString() {
         return "Ingredient{" +
@@ -90,8 +107,6 @@ public class Ingredient extends BaseModel{
                 ", servingSize=" + servingSize +
                 ", calories=" + calories +
                 ", name='" + name + '\'' +
-                ", measurements=" + measurements +
-                ", ingredientNutrients=" + ingredientNutrients +
                 '}';
     }
 }

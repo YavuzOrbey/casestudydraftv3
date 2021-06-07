@@ -1,39 +1,39 @@
 package com.casestudydraft.tools;
 
-public class KeyValuePair {
+public class KeyValuePair<E, T> {
 
-    private int key;
-    private int value;
+    private E first;
+    private T second;
 
     public KeyValuePair() {
     }
 
-    public KeyValuePair(int key, int value) {
-        this.key = key;
-        this.value = value;
+    public KeyValuePair(E first, T second) {
+        this.first = first;
+        this.second = second;
     }
 
-    public int getKey() {
-        return key;
+    public E getFirst() {
+        return first;
     }
 
-    public void setKey(int key) {
-        this.key = key;
+    public void setFirst(E first) {
+        this.first = first;
     }
 
-    public int getValue() {
-        return value;
+    public T getSecond() {
+        return second;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setSecond(T second) {
+        this.second = second;
     }
 
     @Override
     public String toString() {
         return "KeyValuePair{" +
-                "key=" + key +
-                ", value=" + value +
+                "first=" + first +
+                ", second=" + second +
                 '}';
     }
 }
