@@ -1,6 +1,8 @@
 package com.casestudydraft.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 @Entity
 @Table(name="recipe")
@@ -13,15 +15,43 @@ public class Recipe extends BaseModel{
     @Column(name="name")
     private String name;
 
+    @Column(name="cuisine")
+    private String cuisine;
+
+    @Column
     @ManyToMany(mappedBy = "recipe")
     Set<Meal> meal;
 
-/*  @ManyToMany
-    @JoinTable(
-            joinColumns = @JoinColumn(name="recipe_id"),
-            inverseJoinColumns = @JoinColumn(name="step_id")
-    )
-    private Set<StepEntity> stepEntity;*/
+    @OneToMany(mappedBy = "recipe")
+    List<Step> recipeSteps = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipe", cascade = {
+            CascadeType.ALL
+    })
+    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Set<Meal> getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Set<Meal> meal) {
+        this.meal = meal;
+    }
+
+    public List<Step> getRecipeSteps() {
+        return recipeSteps;
+    }
+
+    public void setRecipeSteps(List<Step> recipeSteps) {
+        this.recipeSteps = recipeSteps;
+    }
 
     public Recipe() {
         super();
@@ -46,5 +76,21 @@ public class Recipe extends BaseModel{
 
     public void setMealEntity(Set<Meal> meal) {
         this.meal = meal;
+    }
+
+    public String getCuisine() {
+        return cuisine;
+    }
+
+    public void setCuisine(String cuisine) {
+        this.cuisine = cuisine;
+    }
+
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
     }
 }

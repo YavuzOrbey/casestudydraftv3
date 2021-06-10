@@ -33,12 +33,23 @@ public class Ingredient extends BaseModel{
     private String name;
 
     @ManyToOne
+    @JoinColumn(name="fk_servingSizeMeasurement")
     private Measurement measurement;
-    
+
+
+    @ManyToOne
+    @JoinColumn(name="fk_categoryId")
+    private Category category;
+
     @OneToMany(mappedBy = "ingredient", cascade = {
             CascadeType.ALL
     })
     private List<IngredientNutrient> ingredientNutrients = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ingredient", cascade = {
+            CascadeType.ALL
+    })
+    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
     public Ingredient() {
         super();
@@ -98,6 +109,22 @@ public class Ingredient extends BaseModel{
 
     public void setMeasurement(Measurement measurement) {
         this.measurement = measurement;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
     }
 
     @Override

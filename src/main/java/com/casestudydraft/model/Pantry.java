@@ -12,9 +12,6 @@ public class Pantry extends BaseModel{
     @Column(name="id")
     private int id;
 
-    @Column(name="name", nullable=false)
-    private String name;
-
     @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
     private User user;
@@ -28,18 +25,6 @@ public class Pantry extends BaseModel{
 
     public Pantry() {
         super();
-    }
-
-    public Pantry(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public User getUser() {

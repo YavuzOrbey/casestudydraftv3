@@ -24,6 +24,8 @@ public class Measurement extends BaseModel{
     @OneToMany(mappedBy="measurement", orphanRemoval=true, cascade = CascadeType.ALL)
     private List<Nutrient> nutrients;
 
+    @OneToMany(mappedBy="measurement", orphanRemoval=true, cascade = CascadeType.ALL)
+    private List<RecipeIngredient> recipeIngredients;
     public Measurement() {
     }
 

@@ -13,13 +13,6 @@ public class MealType extends BaseModel{
     @Column(name="name")
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "mealType_meal",
-            joinColumns = @JoinColumn(name="mealType_id"),
-            inverseJoinColumns = @JoinColumn(name="meal_id")
-    )
-    Set<Meal> meal;
-
     public MealType() {
         super();
     }

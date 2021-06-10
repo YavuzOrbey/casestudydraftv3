@@ -1,24 +1,16 @@
 package com.casestudydraft.model;
 
-import com.casestudydraft.tools.ValueMatch;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name="user")
-@ValueMatch.List({
-        @ValueMatch(
-                value= "password",
-                otherValue = "passwordConfirm",
-                message = "Passwords do not match"
-        )
-})
 public class User extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +20,6 @@ public class User extends BaseModel {
 
     @Column(name="email")
     @Email
-
     @NotBlank(message="Required")
     private String email;
 
@@ -37,6 +28,7 @@ public class User extends BaseModel {
     @Size(min=6, message ="Password must be at least 6 characters in length")
     private String password;
 
+    @Transient
     private String passwordConfirm;
 
     @OneToOne(mappedBy = "user")
@@ -92,6 +84,38 @@ public class User extends BaseModel {
 
     public void setPantry(Pantry pantry) {
         this.pantry = pantry;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
+    public List<Role> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<Role> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public Set<Recipe> getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Set<Recipe> recipe) {
+        this.recipe = recipe;
     }
 
     @Override

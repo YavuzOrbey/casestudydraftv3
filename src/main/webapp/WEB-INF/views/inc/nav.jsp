@@ -24,8 +24,8 @@
           <div class='col-md-3'>
             <h6>Recipes</h6>
             <ul class='list-unstyled'>
-              <li ><a href="${pageContext.request.contextPath}/measurement" class='link-secondary text-decoration-none'>Browse</a></li>
-              <li ><a href="${pageContext.request.contextPath}/measurement" class='link-secondary text-decoration-none'>Search</a></li>
+              <li ><a href="${pageContext.request.contextPath}/recipe" class='link-secondary text-decoration-none'>Browse</a></li>
+              <li ><a href="${pageContext.request.contextPath}/recipe" class='link-secondary text-decoration-none'>Search</a></li>
             </ul>
           </div>
           <div class='col-md-3'>

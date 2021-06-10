@@ -14,8 +14,11 @@ public class Meal extends BaseModel{
     @Column(name="date")
     private Date date;
 
-    @ManyToMany(mappedBy = "meal")
-    private Set<MealType> mealType;
+    @ManyToOne
+    private MealType mealType;
+
+    @ManyToOne
+    private User user;
 
     @ManyToMany
     @JoinTable(name = "meal_recipe",

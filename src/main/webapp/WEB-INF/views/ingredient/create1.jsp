@@ -15,11 +15,15 @@
     </div>
 
     <div class='form-check form-check-inline mb-3'>
+<%--    <form:radiobuttons path="measurement.id" items="${measurements}" var="measurement" itemLabel="${measurement.name}" />--%>
         <c:forEach items="${measurements}" var="measurement">
-            <label class='form-label'>${measurement.name}</label>
-            <input type="radio" id="serving"  name="measurement" value="${measurement.id}" placeholder="Serving Size" />
-            <%--<input type="radio" class='' name="form.ingredient.measurement" value="${measurement.id}" />--%>
-        </c:forEach>
+         <form:radiobutton path="measurement.id" value="${measurement.id}" label="${measurement.name}" />
+         </c:forEach>
+        <%--            <label class='form-label'>${measurement.name}</label>--%><%--
+
+
+            --%><%--<input type="radio" id="serving"  name="measurement" value="${measurement.id}" placeholder="Serving Size" />--%><%--
+        --%>
     </div>
     <div class="mb-3">
                 <label for="calories"  class='form-label'>Calories per Serving</label>

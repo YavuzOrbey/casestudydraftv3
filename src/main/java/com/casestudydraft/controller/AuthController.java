@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.NoResultException;
@@ -21,21 +22,32 @@ import javax.validation.Valid;
 public class AuthController {
     @Autowired UserService userService;
 
+    @ModelAttribute("user")
+    public User newUser(){
+        return new User();
+    }
     @RequestMapping(value="/register", method = RequestMethod.GET)
-    public ModelAndView registerScreen(HttpServletRequest request, @ModelAttribute("user") User user) {
-        ModelAndView mav = new ModelAndView("auth/register");
-        return mav;
+    public ModelAndView registerScreen(HttpServletRequest request) {
+        ModelAndView mav = null;
+        mav = new ModelAndView("auth/register");
+        return  mav;
     }
 
     @RequestMapping(value="/register", method = RequestMethod.POST)
-    public String registerUser(HttpServletRequest request, @ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
+    public String registerUser(HttpServletRequest request, @ModelAttribute("user") @Valid User user, BindingResult result) {
         //should also create the user's pantry when registered
         String url = "auth/register";
+        if(user.getPassword()!=user.getPasswordConfirm()) {
+            url = "auth/register"; //maybe throw a customexception here
+            return url;
+        }
+        else
         try {
             userService.findByEmail(user.getEmail());
         }catch(NoResultException | EmptyResultDataAccessException e ) {
             //User user = new User(request.getParameter("email"), request.getParameter("password"));
             userService.saveToDatabase(user);
+            url = "pages/dashboard";
         }catch(Exception e) {
             System.out.println(e);
         }

@@ -2,6 +2,7 @@ package com.casestudydraft.controller;
 
 import com.casestudydraft.model.Measurement;
 
+import com.casestudydraft.repository.MeasurementRepository;
 import com.casestudydraft.service.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,12 +18,14 @@ import java.util.List;
 @Controller
 @RequestMapping(value="/measurement")
 public class MeasurementController {
-    @Autowired MeasurementService measurementService;
+    //@Autowired MeasurementService measurementService;
+    @Autowired
+    MeasurementRepository measurementRepository;
 
     @ModelAttribute("measurements")
-    public ArrayList<Measurement> measurements(){
-        List<Measurement> measurements = measurementService.findAll();
-        return (ArrayList<Measurement>) measurements;
+    public List<Measurement> measurements(){
+        List<Measurement> measurements = (List<Measurement>) measurementRepository.findAll();
+        return measurements;
     }
     @RequestMapping(value="", method= RequestMethod.GET)
     public String redirectToMain(){

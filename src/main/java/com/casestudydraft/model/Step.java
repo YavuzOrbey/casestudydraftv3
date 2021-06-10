@@ -18,9 +18,7 @@ public class Step extends BaseModel {
 
     @ManyToOne
     private Recipe recipe;
-  /*  @ManyToMany(mappedBy = "stepEntity")
-    Set<RecipeEntity> recipeEntity;
-*/
+
 
     public Step() {
     }
