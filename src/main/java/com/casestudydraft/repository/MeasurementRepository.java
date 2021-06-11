@@ -1,7 +1,8 @@
 package com.casestudydraft.repository;
 
 import com.casestudydraft.model.Measurement;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MeasurementRepository extends CrudRepository<Measurement, Long> {
+public interface MeasurementRepository extends JpaRepository<Measurement, Long> {
+    Measurement findByName(String name);
 }

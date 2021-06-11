@@ -1,12 +1,14 @@
 package com.casestudydraft.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+
 @Entity
 public class RecipeIngredient extends BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "recipe_id")
@@ -16,6 +18,7 @@ public class RecipeIngredient extends BaseModel{
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
+    @Min(0)
     @Column(name = "quantity")
     private int quantity;
 
@@ -26,11 +29,11 @@ public class RecipeIngredient extends BaseModel{
     public RecipeIngredient() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,5 +67,15 @@ public class RecipeIngredient extends BaseModel{
 
     public void setMeasurement(Measurement measurement) {
         this.measurement = measurement;
+    }
+
+    @Override
+    public String toString() {
+        return "RecipeIngredient{" +
+                "id=" + id +
+                ", ingredient=" + ingredient +
+                ", quantity=" + quantity +
+                ", measurement=" + measurement +
+                '}';
     }
 }

@@ -16,7 +16,7 @@ public class Ingredient extends BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private Integer id;
+    private Long id;
 
     @Column(name="serving_size")
     @NotNull(message = "Required")
@@ -63,7 +63,7 @@ public class Ingredient extends BaseModel{
     }
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -91,7 +91,7 @@ public class Ingredient extends BaseModel{
         this.calories = calories;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

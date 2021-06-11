@@ -13,21 +13,25 @@
             <form:input id="cuisine" class='form-control' path="cuisine" type="text" placeholder="Cuisine" />
             <form:errors path="cuisine" class='form-error' />
     </div>
-    <button onclick="()->console.log('clicked')">Add New Ingredient</button>
+    <a href="#" onclick="doSomething = function(e){e.preventDefault(); console.log('clicked')}">Add New Ingredient</a>
     <div class='new-ingredient' >
         <div class="mb-3">
+            <label  class='form-label'>Ingredient</label>
+
+            <form:select path="recipeIngredients[0].ingredient.id" items="${ingredients}" class="ingredient"/>
+            <form:errors path="recipeIngredients[0].ingredient.id" class='form-error' />
                     <label  class='form-label'>Quanity</label>
-                    <form:input class='form-control' path="recipe.recipeIngredients[]" type="text" placeholder="Ingredient Name" />
-                    <form:errors path="recipe.recipeIngredients[]" class='form-error' />
-        </div>
-        <div class='form-check form-check-inline mb-3'>
-            <c:forEach items="${measurements}" var="measurement">
-             <form:radiobutton path="recipe.recipeIngredients[].measurement.id" value="${measurement.id}" label="${measurement.name}" />
-             </c:forEach>
+                    <form:input path="recipeIngredients[0].quantity" type="text" placeholder="Ingredient Name" />
+                    <form:errors path="recipeIngredients[0].quantity" class='form-error' />
+            <div class='form-check form-check-inline mb-3'>
+                <c:forEach items="${measurements}" var="measurement">
+                 <form:radiobutton path="recipeIngredients[0].measurement.id" value="${measurement.id}" label="${measurement.name}" />
+                 </c:forEach>
+            </div>
         </div>
     </div>
 <button onclick="()->console.log('step clicked')">Add New Step</button>
-    <div class='new-step' >
+    <%--<div class='new-step' >
         <div class="mb-3">
                     <label  class='form-label'>Quanity</label>
                     <form:input class='form-control' path="recipe.recipeIngredients[]" type="text" placeholder="Ingredient Name" />
@@ -38,8 +42,7 @@
              <form:radiobutton path="recipe.recipeIngredients[].measurement.id" value="${measurement.id}" label="${measurement.name}" />
              </c:forEach>
         </div>
-    </div>
-
+    </div>--%>
 
     <button>Submit</button>
 </form:form>

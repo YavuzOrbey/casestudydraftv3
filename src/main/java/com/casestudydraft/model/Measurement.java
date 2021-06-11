@@ -9,22 +9,15 @@ public class Measurement extends BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Long id;
 
     @Column(name="name", nullable=false)
     private String name;
-/*
-    @ManyToMany
-    @JoinTable(
-            joinColumns = @JoinColumn(name="measurement_id"),
-            inverseJoinColumns = @JoinColumn(name="ingredient_id")
-    )
-    private List<Ingredient> ingredients;*/
 
-    @OneToMany(mappedBy="measurement", orphanRemoval=true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="measurement", cascade = CascadeType.ALL)
     private List<Nutrient> nutrients;
 
-    @OneToMany(mappedBy="measurement", orphanRemoval=true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="measurement", cascade = CascadeType.ALL)
     private List<RecipeIngredient> recipeIngredients;
     public Measurement() {
     }
@@ -34,11 +27,11 @@ public class Measurement extends BaseModel{
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

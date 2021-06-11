@@ -85,11 +85,12 @@ public class IngredientController {
         for(int i=0; i<nutrients.size(); i++){
             ingredientNutrients.add(new IngredientNutrient(nutrients.get(i)));
         }
+
         ingredient.setIngredientNutrients(ingredientNutrients);
         mav = new ModelAndView("ingredient/create1", "ingredientNutrients", ingredientNutrients);
         return mav;
     }
-    @Transactional
+
     @RequestMapping(value="/create", method= RequestMethod.POST)
     public ModelAndView storeIngredient(HttpServletRequest request,
                                         @ModelAttribute("ingredient") Ingredient ingredient,
@@ -100,7 +101,7 @@ public class IngredientController {
             return mav;
 
         }
-        ingredient.setMeasurement(measurementService.findById(ingredient.getMeasurement().getId()));
+        ingredient.setMeasurement(measurementService.get(ingredient.getMeasurement().getId()));
         //the problem is when I get ingredient back from form the list ingredient.ingredientNutrients is filled with
         // IngredientNutrients that have the amount field filled in but the ingredient and nutrient field are null
         // cannot fill a object datatype field in html so lets think of another way....
@@ -125,16 +126,18 @@ public class IngredientController {
          */
         ingredient.getIngredientNutrients().forEach(ingredientNutrient -> {
             ingredientNutrient.setIngredient(ingredient);
-            ingredientNutrient.setNutrient(nutrientService.findById(ingredientNutrient.getNutrient().getId()));
+            ingredientNutrient.setNutrient(nutrientService.get(ingredientNutrient.getNutrient().getId()));
         });
-        Ingredient savedIngredient = ingredientService.saveToDatabase(ingredient);
+        ingredientService.save(ingredient);
 
         mav = new ModelAndView("redirect:");
         return mav;
 }
     @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
     public String deleteNutrient(@PathVariable int id){
-        ingredientService.delete(ingredientService.findById(id));
+        ingredientService.delete(ingredientService.get(id));
         return "redirect:/ingredient/";
     }
+
+
 }

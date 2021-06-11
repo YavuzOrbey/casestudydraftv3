@@ -10,7 +10,7 @@ public class Recipe extends BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Long id;
 
     @Column(name="name")
     private String name;
@@ -29,11 +29,23 @@ public class Recipe extends BaseModel{
             CascadeType.ALL
     })
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
-    public int getId() {
+
+
+
+    public Recipe() {
+        super();
+    }
+
+    public Recipe(String name) {
+        super();
+        this.name = name;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,14 +65,6 @@ public class Recipe extends BaseModel{
         this.recipeSteps = recipeSteps;
     }
 
-    public Recipe() {
-        super();
-    }
-
-    public Recipe(String name) {
-        super();
-        this.name = name;
-    }
 
     public String getName() {
         return name;

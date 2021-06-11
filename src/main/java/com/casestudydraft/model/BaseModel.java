@@ -7,8 +7,8 @@ import java.sql.Timestamp;
 @MappedSuperclass
 public abstract class BaseModel {
 
-    @Column(name = "created_on")
-    private Timestamp created_on;
+    @Column(name = "created_on",  updatable = false)
+    final private Timestamp created_on;
 
     @Column(name = "updated_on")
     private Timestamp updated_on;

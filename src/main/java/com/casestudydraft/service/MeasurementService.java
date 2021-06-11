@@ -5,27 +5,37 @@ import com.casestudydraft.dao.MeasurementDAOImpl;
 import com.casestudydraft.dao.UserDAOImpl;
 import com.casestudydraft.model.Measurement;
 import com.casestudydraft.model.User;
+import com.casestudydraft.repository.MeasurementRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.sql.Timestamp;
 import java.util.List;
 @Service
-public class MeasurementService extends GenericService<Measurement, MeasurementDAOImpl> {
+public class MeasurementService {
 
-    public List<Measurement> findAll() {
-        return dao.findAll();
+    @Autowired
+    MeasurementRepository measurementRepository;
+
+    public void save(Measurement measurement){
+        measurementRepository.save(measurement);
     }
-    public Measurement findByName(String name) throws NoResultException {
-        return dao.findByName(name);
+    public List<Measurement> findAll() {
+        return measurementRepository.findAll();
+    }
+
+    public Measurement get(Long id){
+        return measurementRepository.getById(id);
+    }
+    public Measurement findByName(String name){
+        return measurementRepository.findByName(name);
     }
     public void delete(Measurement measurement){
-        dao.deleteFromDatabase(measurement);
+        measurementRepository.delete(measurement);
     }
 
-    public void update(Measurement measurement){
-        dao.updateDatabase(measurement);
-    }
 
 }

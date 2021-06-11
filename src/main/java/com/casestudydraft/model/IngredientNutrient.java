@@ -8,7 +8,7 @@ public class IngredientNutrient extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ingredient_id")
@@ -28,11 +28,11 @@ public class IngredientNutrient extends BaseModel {
         this.nutrient = nutrient;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

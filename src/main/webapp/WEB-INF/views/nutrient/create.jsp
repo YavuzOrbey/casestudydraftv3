@@ -6,19 +6,16 @@
 
 <div class="container ">
     <div  class="p-5 ">
-      <form method="POST">
+      <form:form method="POST" modelAttribute="nutrient">
         <h3>Create New Nutrient</h3>
         <div class="mb-3">
           <label for="nutrient_name" class="form-label">Nutrient Name</label>
-          <input type="text" name="nutrient" class="form-control" id="nutrient_name">
+          <form:input type="text" path="name" class="form-control" id="nutrient_name"/>
         </div>
         <div class="mb-3">
             <label>Measured in: </label>
             <c:forEach items="${measurements}" var="measurement">
-            <fieldset>
-                <label>${measurement.name}</label>
-                <input type="radio"  name="measurement" value="${measurement.id}" />
-            </fieldset>
+                     <form:radiobutton path="measurement.id" value="${measurement.id}" label="${measurement.name}" />
             </c:forEach>
         </div>
         <div class='row justify-content-between mb-3'>
@@ -26,7 +23,7 @@
           <button type="submit" style="background: #4B042B; color: white" class="btn col-md-6">Create!</button>
 
         </div>
-      </form>
+      </form:form>
   </div>
   </div>
 <%@include file="../inc/foot.jsp" %>

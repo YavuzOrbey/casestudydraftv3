@@ -11,6 +11,7 @@ import com.casestudydraft.service.NutrientService;
 import com.casestudydraft.tools.FormHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,4 +68,38 @@ public class RecipeController {
         mav = new ModelAndView("recipe/index");
         return mav;
     }
+
+    @RequestMapping(value="/create", method= RequestMethod.GET)
+    public ModelAndView createRecipe(@ModelAttribute("measurements") ArrayList<Measurement> measurements,
+                                     @ModelAttribute("ingredients") ArrayList<Ingredient> ingredients){
+        ModelAndView mav = null;
+        mav = new ModelAndView("recipe/create");
+        mav.addObject("recipe", new Recipe());
+        return mav;
+    }
+
+    @RequestMapping(value="/create", method= RequestMethod.POST)
+    public ModelAndView storeRecipe(HttpServletRequest request,
+                                        @ModelAttribute("recipe") Recipe recipe,
+                                        BindingResult result) {
+        ModelAndView mav = null;
+        if(result.hasErrors()){
+            mav = new ModelAndView("recipe/create");
+            return mav;
+
+        }
+        //maybe stop trying to bind recipe.recipeIngredients as well as all other stuff that ALREADY exists
+
+        System.out.println(recipe.getRecipeIngredients());
+//        ingredient.setMeasurement(measurementService.get(ingredient.getMeasurement().getId()));
+//        ingredient.getIngredientNutrients().forEach(ingredientNutrient -> {
+//            ingredientNutrient.setIngredient(ingredient);
+//            ingredientNutrient.setNutrient(nutrientService.get(ingredientNutrient.getNutrient().getId()));
+//        });
+//        ingredientService.save(ingredient);
+//
+//        mav = new ModelAndView("redirect:");
+        return mav;
+    }
+
 }
