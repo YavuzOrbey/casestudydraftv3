@@ -1,4 +1,7 @@
 package com.casestudydraft.repository;
 
-public interface UserRepository {
+import com.casestudydraft.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
 }

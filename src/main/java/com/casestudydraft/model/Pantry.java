@@ -2,6 +2,7 @@ package com.casestudydraft.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,12 +17,10 @@ public class Pantry extends BaseModel{
     @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            joinColumns = @JoinColumn(name="pantry_id"),
-            inverseJoinColumns = @JoinColumn(name="ingredient_id")
-    )
-    private Set<Ingredient> ingredients;
+    @OneToMany(mappedBy = "pantry", cascade = {
+            CascadeType.ALL
+    })
+    private List<PantryIngredient> pantryIngredients = new ArrayList<>();
 
     public Pantry() {
         super();
@@ -35,11 +34,20 @@ public class Pantry extends BaseModel{
         this.user = user;
     }
 
-    public Set<Ingredient> getIngredients() {
-        return ingredients;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<PantryIngredient> getPantryIngredients() {
+        return pantryIngredients;
+    }
+
+    public void setPantryIngredients(List<PantryIngredient> pantryIngredients) {
+        this.pantryIngredients = pantryIngredients;
     }
 }

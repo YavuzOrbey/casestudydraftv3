@@ -132,7 +132,27 @@ public class IngredientController {
 
         mav = new ModelAndView("redirect:");
         return mav;
-}
+    }
+
+    @RequestMapping(value="/edit/{id}", method= RequestMethod.GET)
+    public ModelAndView editIngredient(HttpServletRequest request, @PathVariable Long id,
+                                       @ModelAttribute("ingredient") Ingredient ingredient,
+                                       @ModelAttribute("nutrient") Nutrient nutrient, BindingResult result,
+                                       @ModelAttribute("measurements") ArrayList<Measurement> measurements) {
+        ModelAndView mav = null;
+        ingredient = ingredientService.get(id);
+        mav = new ModelAndView("ingredient/edit");
+        mav.addObject(ingredient);
+        return mav;
+    }
+
+    @RequestMapping(value="/edit/{id}", method= RequestMethod.POST)
+    public ModelAndView updateIngredient(HttpServletRequest request,  @ModelAttribute("nutrient") Nutrient nutrient) {
+        ModelAndView mav = null;
+        mav = new ModelAndView("nutrient/edit");
+        nutrientService.save(nutrient);
+        return mav;
+    }
     @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
     public String deleteNutrient(@PathVariable int id){
         ingredientService.delete(ingredientService.get(id));

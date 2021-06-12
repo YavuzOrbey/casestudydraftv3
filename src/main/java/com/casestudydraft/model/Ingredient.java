@@ -51,6 +51,11 @@ public class Ingredient extends BaseModel{
     })
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
+    @OneToMany(mappedBy = "ingredient", cascade = {
+            CascadeType.ALL
+    })
+    private List<PantryIngredient> pantryIngredients = new ArrayList<>();
+
     public Ingredient() {
         super();
     }
@@ -125,6 +130,14 @@ public class Ingredient extends BaseModel{
 
     public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
+    }
+
+    public List<PantryIngredient> getPantryIngredients() {
+        return pantryIngredients;
+    }
+
+    public void setPantryIngredients(List<PantryIngredient> pantryIngredients) {
+        this.pantryIngredients = pantryIngredients;
     }
 
     @Override

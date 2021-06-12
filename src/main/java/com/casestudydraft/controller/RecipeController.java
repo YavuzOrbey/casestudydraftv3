@@ -4,15 +4,13 @@ import com.casestudydraft.model.Ingredient;
 import com.casestudydraft.model.Measurement;
 import com.casestudydraft.model.Nutrient;
 import com.casestudydraft.model.Recipe;
-import com.casestudydraft.service.IngredientNutrientService;
-import com.casestudydraft.service.IngredientService;
-import com.casestudydraft.service.MeasurementService;
-import com.casestudydraft.service.NutrientService;
+import com.casestudydraft.service.*;
 import com.casestudydraft.tools.FormHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,6 +30,9 @@ public class RecipeController {
     IngredientService ingredientService;
     @Autowired
     IngredientNutrientService ingredientNutrientService;
+
+    @Autowired
+    RecipeService recipeService;
     @ModelAttribute("ingredient")
     public Ingredient setUpIngredient(){
         Ingredient ingredient = new Ingredient();
@@ -57,7 +58,11 @@ public class RecipeController {
         List<Ingredient> ingredients = ingredientService.findAll();
         return (ArrayList<Ingredient>) ingredients;
     }
-
+    @ModelAttribute("recipes")
+    public ArrayList<Recipe> recipes(){
+        List<Recipe> recipes = recipeService.findAll();
+        return (ArrayList<Recipe>) recipes;
+    }
     @RequestMapping(value="", method= RequestMethod.GET)
     public String redirectToMain(){
         return "redirect:recipe/";
@@ -71,7 +76,9 @@ public class RecipeController {
 
     @RequestMapping(value="/create", method= RequestMethod.GET)
     public ModelAndView createRecipe(@ModelAttribute("measurements") ArrayList<Measurement> measurements,
-                                     @ModelAttribute("ingredients") ArrayList<Ingredient> ingredients){
+                                     @ModelAttribute("ingredients") ArrayList<Ingredient> ingredients,
+                                     @ModelAttribute("recipes") ArrayList<Recipe> recipes
+                                     ){
         ModelAndView mav = null;
         mav = new ModelAndView("recipe/create");
         mav.addObject("recipe", new Recipe());
@@ -89,8 +96,14 @@ public class RecipeController {
 
         }
         //maybe stop trying to bind recipe.recipeIngredients as well as all other stuff that ALREADY exists
-
         System.out.println(recipe.getRecipeIngredients());
+        recipe.getRecipeIngredients().forEach(recipeIngredient -> {
+            recipeIngredient.setRecipe(recipe);
+            recipeIngredient.setIngredient(ingredientService.get(recipeIngredient.getIngredient().getId()));
+            recipeIngredient.setMeasurement(measurementService.get(recipeIngredient.getMeasurement().getId()));
+        });
+        recipeService.save(recipe);
+        mav = new ModelAndView("recipe/index");
 //        ingredient.setMeasurement(measurementService.get(ingredient.getMeasurement().getId()));
 //        ingredient.getIngredientNutrients().forEach(ingredientNutrient -> {
 //            ingredientNutrient.setIngredient(ingredient);
@@ -100,6 +113,12 @@ public class RecipeController {
 //
 //        mav = new ModelAndView("redirect:");
         return mav;
+    }
+
+    @RequestMapping(value="/delete/{id}", method = RequestMethod.GET)
+    public String deleteRecipe(@PathVariable int id){
+        recipeService.delete(recipeService.get(id));
+        return "redirect:/recipe/";
     }
 
 }

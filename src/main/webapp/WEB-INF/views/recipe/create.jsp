@@ -30,6 +30,22 @@
             </div>
         </div>
     </div>
+    <div class='new-ingredient' >
+            <div class="mb-3">
+                <label  class='form-label'>Ingredient</label>
+
+                <form:select path="recipeIngredients[1].ingredient.id" items="${ingredients}" class="ingredient"/>
+                <form:errors path="recipeIngredients[1].ingredient.id" class='form-error' />
+                        <label  class='form-label'>Quanity</label>
+                        <form:input path="recipeIngredients[1].quantity" type="text" placeholder="Ingredient Name" />
+                        <form:errors path="recipeIngredients[1].quantity" class='form-error' />
+                <div class='form-check form-check-inline mb-3'>
+                    <c:forEach items="${measurements}" var="measurement">
+                     <form:radiobutton path="recipeIngredients[1].measurement.id" value="${measurement.id}" label="${measurement.name}" />
+                     </c:forEach>
+                </div>
+            </div>
+        </div>
 <button onclick="()->console.log('step clicked')">Add New Step</button>
     <%--<div class='new-step' >
         <div class="mb-3">

@@ -93,6 +93,7 @@ public class NutrientController {
     @RequestMapping(value="/edit/{id}", method= RequestMethod.POST)
     public ModelAndView updateNutrient(HttpServletRequest request,  @ModelAttribute("nutrient") Nutrient nutrient) {
         ModelAndView mav = null;
+        System.out.println(nutrient);
         mav = new ModelAndView("nutrient/edit");
         nutrientService.save(nutrient);
         return mav;

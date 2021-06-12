@@ -32,7 +32,7 @@ public class PantryDAOImpl implements PantryDAO{
             //get current's users pantry
             Pantry userPantry =user.getPantry();
             //add ingredient to pantry ingredients
-            userPantry.getIngredients().add(ingredient);
+            //userPantry.getIngredients().add(ingredient);
             //save pantry to database
 
     }
@@ -44,7 +44,7 @@ public class PantryDAOImpl implements PantryDAO{
         //get current's users pantry
         Pantry userPantry =user.getPantry();
         //remove ingredient from pantry ingredients
-        userPantry.getIngredients().remove(ingredient);
+        //userPantry.getIngredients().remove(ingredient);
     }
 
     @Override

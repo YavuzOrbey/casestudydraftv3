@@ -3,23 +3,27 @@ package com.casestudydraft.service;
 import com.casestudydraft.dao.PantryDAOImpl;
 import com.casestudydraft.model.Ingredient;
 import com.casestudydraft.model.Pantry;
+import com.casestudydraft.repository.PantryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PantryService extends GenericService<Pantry, PantryDAOImpl> {
+public class PantryService {
+
+    @Autowired
+    PantryRepository pantryRepository;
     public void addIngredient(Ingredient ingredient){
-        dao.addIngredient(ingredient);
+//        pantryRepository.addIngredient(ingredient);
     }
 
     public void removeIngredient(Ingredient ingredient){
-
-        dao.removeIngredient(ingredient);
+//        pantryRepository.removeIngredient(ingredient);
     }
     public void decreaseQuantity(Ingredient ingredient){
-        dao.decreaseQuantity(ingredient);
+
     }
     public void increaseQuantity(Ingredient ingredient){
-        dao.increaseQuantity(ingredient);
+
     }
 
 }
