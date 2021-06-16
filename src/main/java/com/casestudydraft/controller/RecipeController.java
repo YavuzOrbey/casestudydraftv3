@@ -42,7 +42,7 @@ public class RecipeController {
     @ModelAttribute("measurements")
     public ArrayList<Measurement> measurements(){
 
-        List<Measurement> measurements = measurementService.findAll();
+        List<Measurement> measurements = measurementService.listAll();
         return (ArrayList<Measurement>) measurements;
     }
 

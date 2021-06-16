@@ -1,8 +1,6 @@
 package com.casestudydraft.service;
 
-import com.casestudydraft.dao.MeasurementDAO;
-import com.casestudydraft.dao.MeasurementDAOImpl;
-import com.casestudydraft.dao.UserDAOImpl;
+
 import com.casestudydraft.model.Measurement;
 import com.casestudydraft.model.User;
 import com.casestudydraft.repository.MeasurementRepository;
@@ -23,7 +21,7 @@ public class MeasurementService {
     public void save(Measurement measurement){
         measurementRepository.save(measurement);
     }
-    public List<Measurement> findAll() {
+    public List<Measurement> listAll() {
         return measurementRepository.findAll();
     }
 
@@ -32,6 +30,10 @@ public class MeasurementService {
     }
     public Measurement findByName(String name){
         return measurementRepository.findByName(name);
+    }
+
+    public Measurement findByNameIgnoreCaseContaining(String name){
+        return measurementRepository.findByNameIgnoreCaseContaining(name);
     }
     public void delete(Measurement measurement){
         measurementRepository.delete(measurement);

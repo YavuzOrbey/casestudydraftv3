@@ -19,7 +19,7 @@
     <div class="dropdown">
       <button class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"
       style="background-color: transparent; border: none;">Recipes & Ingredients</button>
-      <ul class="dropdown-menu bg-light vh-100 p-5" aria-labelledby="dropdownMenuButton1">
+      <ul class="dropdown-menu bg-light p-5" aria-labelledby="dropdownMenuButton1">
         <li class='row '>
           <div class='col-md-3'>
             <h6>Recipes</h6>

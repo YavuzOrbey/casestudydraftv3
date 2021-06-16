@@ -1,5 +1,9 @@
 package com.casestudydraft.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,7 @@ public class Nutrient extends BaseModel{
 
     @ManyToOne
     @JoinColumn(nullable=false)
+    @JsonManagedReference
     private Measurement measurement;
 
 
@@ -51,7 +56,6 @@ public class Nutrient extends BaseModel{
         this.name = name;
     }
 
-
     public Measurement getMeasurement() {
         return measurement;
     }
@@ -60,6 +64,7 @@ public class Nutrient extends BaseModel{
         this.measurement = measurement;
     }
 
+    @JsonIgnore
     public List<IngredientNutrient> getIngredientNutrients() {
         return ingredientNutrients;
     }
@@ -67,6 +72,7 @@ public class Nutrient extends BaseModel{
     public void setIngredientNutrients(List<IngredientNutrient> ingredientNutrients) {
         this.ingredientNutrients = ingredientNutrients;
     }
+
 
     @Override
     public String toString() {

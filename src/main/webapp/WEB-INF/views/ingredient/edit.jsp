@@ -1,3 +1,4 @@
+<% String title = "Edit Ingredient"; %>
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>

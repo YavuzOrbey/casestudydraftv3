@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,10 @@ public class User extends BaseModel {
     @Column(name = "id")
     private Long id;
 
+    @Column(name="username")
+    @NotBlank(message="Required")
+    @NotEmpty
+    private String username;
 
     @Column(name="email")
     @Email
@@ -25,17 +30,18 @@ public class User extends BaseModel {
 
     @Column(name="password")
     @NotBlank(message="Password is required")
-    @Size(min=6, message ="Password must be at least 6 characters in length")
+    @Size(min=6)
     private String password;
 
     @Transient
     private String passwordConfirm;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="pantry_id")
     private Pantry pantry;
 
-    @ManyToMany(mappedBy = "rUsers")
-    private List<Role> userRoles;
+    @ManyToMany
+    private Set<Role> roles;
 
     @ManyToMany
     @JoinTable(
@@ -54,6 +60,13 @@ public class User extends BaseModel {
         this.password = password;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
     public String getEmail() {
         return email;
     }
@@ -62,12 +75,12 @@ public class User extends BaseModel {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
-        return userRoles;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.userRoles = roles;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getPassword() {
@@ -102,14 +115,6 @@ public class User extends BaseModel {
         this.passwordConfirm = passwordConfirm;
     }
 
-    public List<Role> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(List<Role> userRoles) {
-        this.userRoles = userRoles;
-    }
-
     public Set<Recipe> getRecipe() {
         return recipe;
     }
@@ -117,6 +122,7 @@ public class User extends BaseModel {
     public void setRecipe(Set<Recipe> recipe) {
         this.recipe = recipe;
     }
+
 
     @Override
     public String toString() {

@@ -1,3 +1,4 @@
+<% String title = "View Recipe"; %>
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
 <div class='nutrition-label'>

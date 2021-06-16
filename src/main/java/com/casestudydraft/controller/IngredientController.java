@@ -13,11 +13,9 @@ import com.casestudydraft.tools.KeyValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +41,7 @@ public class IngredientController {
     @ModelAttribute("measurements")
     public ArrayList<Measurement> measurements(){
 
-        List<Measurement> measurements = measurementService.findAll();
+        List<Measurement> measurements = measurementService.listAll();
         return (ArrayList<Measurement>) measurements;
     }
 
@@ -74,7 +72,7 @@ public class IngredientController {
         mav = new ModelAndView("ingredient/index");
         return mav;
     }
-    @RequestMapping(value="/create", method= RequestMethod.GET)
+    /*@RequestMapping(value="/create", method= RequestMethod.GET)
     public ModelAndView createIngredient(HttpServletRequest request,
                                          @ModelAttribute("measurements") ArrayList<Measurement> measurements,  BindingResult result,
                                          @ModelAttribute("ingredient") Ingredient ingredient) {
@@ -87,52 +85,82 @@ public class IngredientController {
         }
 
         ingredient.setIngredientNutrients(ingredientNutrients);
-        mav = new ModelAndView("ingredient/create1", "ingredientNutrients", ingredientNutrients);
+        mav = new ModelAndView("ingredient/nutrients", "ingredientNutrients", ingredientNutrients);
+        return mav;
+    }*/
+    @RequestMapping(value="/create", method= RequestMethod.GET)
+    public ModelAndView createIngredient(HttpServletRequest request,
+                                         @ModelAttribute("nutrients") ArrayList<Nutrient> nutrients,  BindingResult result) {
+
+        ModelAndView mav = null;
+        mav = new ModelAndView("ingredient/nutrient", "nutrients", nutrients);
         return mav;
     }
 
-    @RequestMapping(value="/create", method= RequestMethod.POST)
+    @RequestMapping(value="/create3", method= RequestMethod.POST)
     public ModelAndView storeIngredient(HttpServletRequest request,
                                         @ModelAttribute("ingredient") Ingredient ingredient,
-                                        BindingResult result) {
+                                        BindingResult result,  @RequestParam ArrayList<HashMap<String,String>> nutrients) {
+        // the problem with not having ingredientNutrients already binded to ingredient is that I have to go through the request manually
+        // and add it to
+        System.out.println(ingredient);
+        System.out.println(nutrients);
         ModelAndView mav = null;
         if(result.hasErrors()){
             mav = new ModelAndView("ingredient/create");
             return mav;
 
         }
-        ingredient.setMeasurement(measurementService.get(ingredient.getMeasurement().getId()));
-        //the problem is when I get ingredient back from form the list ingredient.ingredientNutrients is filled with
-        // IngredientNutrients that have the amount field filled in but the ingredient and nutrient field are null
-        // cannot fill a object datatype field in html so lets think of another way....
-
-
-        //what if in the form we had a form:hidden which had a path of path="ingredientNutrients[index].nutrient.id
-        // and we set THAT equal to the id of the nutrient during the loop
-
-        //When this comes back from the form the ingredientNutrients is going to be an arraylist where each
-        // IngredientNutrient only has the amount of that nutrient for the ingredient  and the nutrient object type is
-        // going to have an id
-        /*example IngredientNutrient:
-        {
-        id: 0,
-        nutrient: {id: 1, name: null, ingredientNutrients: null}
-        ingredient: null,
-        amount: 10
-        }
-
-        so for each IngredientNutrient we're going to setIngredient to the ingredient and the nutrient to the
-        id inside of the nutrient property (which is really just used to pluck the id)
-         */
-        ingredient.getIngredientNutrients().forEach(ingredientNutrient -> {
-            ingredientNutrient.setIngredient(ingredient);
-            ingredientNutrient.setNutrient(nutrientService.get(ingredientNutrient.getNutrient().getId()));
-        });
-        ingredientService.save(ingredient);
+//        ingredient.setMeasurement(measurementService.get(ingredient.getMeasurement().getId()));
+//        //the problem is when I get ingredient back from form the list ingredient.ingredientNutrients is filled with
+//        // IngredientNutrients that have the amount field filled in but the ingredient and nutrient field are null
+//        // cannot fill a object datatype field in html so lets think of another way....
+//
+//
+//        //what if in the form we had a form:hidden which had a path of path="ingredientNutrients[index].nutrient.id
+//        // and we set THAT equal to the id of the nutrient during the loop
+//
+//        //When this comes back from the form the ingredientNutrients is going to be an arraylist where each
+//        // IngredientNutrient only has the amount of that nutrient for the ingredient  and the nutrient object type is
+//        // going to have an id
+//        /*example IngredientNutrient:
+//        {
+//        id: 0,
+//        nutrient: {id: 1, name: null, ingredientNutrients: null}
+//        ingredient: null,
+//        amount: 10
+//        }
+//
+//        so for each IngredientNutrient we're going to setIngredient to the ingredient and the nutrient to the
+//        id inside of the nutrient property (which is really just used to pluck the id)
+//         */
+//        ingredient.getIngredientNutrients().forEach(ingredientNutrient -> {
+//            ingredientNutrient.setIngredient(ingredient);
+//            ingredientNutrient.setNutrient(nutrientService.get(ingredientNutrient.getNutrient().getId()));
+//        });
+//        ingredientService.save(ingredient);
 
         mav = new ModelAndView("redirect:");
         return mav;
     }
+    @RequestMapping(value="/create", method= RequestMethod.POST)
+    public ModelAndView createIngredientPage(HttpServletRequest request, @RequestParam ArrayList<Integer> chosen) {
+        ModelAndView mav;
+        mav = new ModelAndView("forward:ingredient/create");
+        return mav;
+    }
+
+
+    @RequestMapping(value="/{id}", method= RequestMethod.GET)
+    public ModelAndView viewIngredient(HttpServletRequest request, @PathVariable Long id,
+                                       @ModelAttribute("ingredient") Ingredient ingredient) {
+        ModelAndView mav = null;
+        ingredient = ingredientService.get(id);
+        mav = new ModelAndView("ingredient/view");
+        mav.addObject(ingredient);
+        return mav;
+    }
+
 
     @RequestMapping(value="/edit/{id}", method= RequestMethod.GET)
     public ModelAndView editIngredient(HttpServletRequest request, @PathVariable Long id,

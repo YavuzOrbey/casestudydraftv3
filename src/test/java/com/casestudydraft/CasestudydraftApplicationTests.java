@@ -8,6 +8,7 @@ class CasestudydraftApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

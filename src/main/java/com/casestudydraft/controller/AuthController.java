@@ -1,16 +1,17 @@
 package com.casestudydraft.controller;
 
+import com.casestudydraft.model.Pantry;
 import com.casestudydraft.model.User;
+import com.casestudydraft.service.PantryService;
+import com.casestudydraft.service.SecurityService;
 import com.casestudydraft.service.UserService;
+import com.casestudydraft.tools.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.NoResultException;
@@ -18,72 +19,62 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+
 @Controller
 public class AuthController {
-    @Autowired UserService userService;
+    @Autowired
+    private UserService userService;
 
-    @ModelAttribute("user")
-    public User newUser(){
-        return new User();
-    }
-    @RequestMapping(value="/register", method = RequestMethod.GET)
-    public ModelAndView registerScreen(HttpServletRequest request) {
-        ModelAndView mav = null;
-        mav = new ModelAndView("auth/register");
-        return  mav;
+    @Autowired
+    private SecurityService securityService;
+
+    @Autowired
+    private UserValidator userValidator;
+
+    @Autowired
+    private PantryService pantryService;
+
+    @GetMapping("/register")
+    public String registration(@ModelAttribute("userForm") User user) {
+        return "auth/register";
     }
 
-    @RequestMapping(value="/register", method = RequestMethod.POST)
-    public String registerUser(HttpServletRequest request, @ModelAttribute("user") @Valid User user, BindingResult result) {
-        //should also create the user's pantry when registered
-        String url = "auth/register";
-        if(user.getPassword()!=user.getPasswordConfirm()) {
-            url = "auth/register"; //maybe throw a customexception here
-            return url;
+    @PostMapping("/register")
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+        userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "auth/register";
         }
-        else
-        try {
-            userService.findByEmail(user.getEmail());
-        }catch(NoResultException | EmptyResultDataAccessException e ) {
-            //User user = new User(request.getParameter("email"), request.getParameter("password"));
-            userService.saveToDatabase(user);
-            url = "pages/dashboard";
-        }catch(Exception e) {
-            System.out.println(e);
-        }
-        return url;
+        userForm.setPantry(new Pantry());
+        userService.save(userForm);
+
+        securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
+
+        return "redirect:/dashboard";
     }
 
-    @RequestMapping(value="/login", method = RequestMethod.GET)
-    public ModelAndView loginScreen(HttpServletRequest request, @ModelAttribute("user") User user) {
-        ModelAndView mav = new ModelAndView("auth/login");
+    @GetMapping("/login")
+    public String login(Model model, String error, String logout, @ModelAttribute("user") User user) {
+        if (error != null)
+            model.addAttribute("error", "Your username and password is invalid.");
+
+        if (logout != null)
+            model.addAttribute("message", "You have been logged out successfully.");
+
+        return "auth/login";
+    }
+
+
+    @GetMapping("/")
+    public String welcome() {
+        return "redirect:home";
+    }
+    @GetMapping("/home")
+    public ModelAndView home() {
+        ModelAndView mav = new ModelAndView("pages/landing");
         return mav;
     }
 
-    @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String loginUser(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
-        System.out.println(user);
-        String url = "auth/login";
 
-        if(result.hasErrors()){
-
-            return url;
-        }
-        try {
-          /*  User user = userService.findByEmail(request.getParameter("email"));
-            boolean validated = userService.validateUser(user, request.getParameter("password"));
-            if(validated) {
-                HttpSession session = 	request.getSession();
-                session.setAttribute("user", user);
-                mav = new ModelAndView("misc/success");
-            }else {
-                mav = new ModelAndView("misc/error");
-            }*/
-            url = userService.validateUser(user) ? "pages/dashboard": "redirect:/";
-        }catch(NoResultException e) {
-            System.out.println(e);
-        }
-        System.out.println("URL IS: " + url);
-        return url;
-    }
 }

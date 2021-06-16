@@ -25,7 +25,7 @@ public class MeasurementController {
 
     @ModelAttribute("measurements")
     public List<Measurement> measurements(){
-        List<Measurement> measurements = measurementService.findAll();
+        List<Measurement> measurements = measurementService.listAll();
         return measurements;
     }
     @RequestMapping(value="", method= RequestMethod.GET)
@@ -41,7 +41,6 @@ public class MeasurementController {
 
     @RequestMapping(value="/create", method= RequestMethod.GET)
     public ModelAndView createMeasurement(HttpServletRequest request) {
-        System.out.println("hello");
         ModelAndView mav = null;
         mav = new ModelAndView("measurement/create");
         mav.addObject("message", "");
@@ -51,6 +50,7 @@ public class MeasurementController {
     @RequestMapping(value="/create", method= RequestMethod.POST)
     public ModelAndView storeMeasurement(HttpServletRequest request) {
         ModelAndView mav = null;
+        System.out.println("Inside storeMeasurement");
         try {
             Measurement m = measurementService.findByName(request.getParameter("measurement_name").toLowerCase());
             if(m==null){

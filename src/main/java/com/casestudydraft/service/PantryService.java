@@ -1,8 +1,6 @@
 package com.casestudydraft.service;
 
-import com.casestudydraft.dao.PantryDAOImpl;
 import com.casestudydraft.model.Ingredient;
-import com.casestudydraft.model.Pantry;
 import com.casestudydraft.repository.PantryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

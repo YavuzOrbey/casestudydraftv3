@@ -1,6 +1,8 @@
 package com.casestudydraft.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -8,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -44,6 +47,7 @@ public class Ingredient extends BaseModel{
     @OneToMany(mappedBy = "ingredient", cascade = {
             CascadeType.ALL
     })
+    @JsonManagedReference
     private List<IngredientNutrient> ingredientNutrients = new ArrayList<>();
 
     @OneToMany(mappedBy = "ingredient", cascade = {
@@ -55,6 +59,17 @@ public class Ingredient extends BaseModel{
             CascadeType.ALL
     })
     private List<PantryIngredient> pantryIngredients = new ArrayList<>();
+
+    @Transient
+    Map<String, String> hashMap;
+
+    public Map<String, String> getHashMap() {
+        return hashMap;
+    }
+
+    public void setHashMap(Map<String, String> hashMap) {
+        this.hashMap = hashMap;
+    }
 
     public Ingredient() {
         super();

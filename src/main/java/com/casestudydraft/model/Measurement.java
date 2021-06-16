@@ -1,5 +1,9 @@
 package com.casestudydraft.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,9 +19,11 @@ public class Measurement extends BaseModel{
     private String name;
 
     @OneToMany(mappedBy="measurement", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Nutrient> nutrients;
 
     @OneToMany(mappedBy="measurement", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<RecipeIngredient> recipeIngredients;
     public Measurement() {
     }
@@ -50,7 +56,7 @@ public class Measurement extends BaseModel{
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }*/
-
+    //@JsonIgnore
     public List<Nutrient> getNutrients() {
         return nutrients;
     }

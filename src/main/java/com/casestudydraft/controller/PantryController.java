@@ -18,7 +18,7 @@ public class PantryController {
     public ModelAndView myPantry(Model model){
 
         //find current user
-        model.addAttribute(userService.findById(1));
+        model.addAttribute(userService.findByUsername("yavuz"));
         System.out.println(model);
         ModelAndView mav = null;
         return mav;

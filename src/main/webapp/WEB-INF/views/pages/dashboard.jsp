@@ -1,3 +1,5 @@
+<% String title = "Dashboard";
+%>
 <%@include file="../inc/head.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <title>Calendar</title>
@@ -6,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+    <link rel="stylesheet" href="/styles/style.css">
     <style>
         body{
 
@@ -39,6 +41,13 @@
 </head>
 <body>
   <%@include file="../inc/nav.jsp" %>
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <form id="logoutForm" method="POST" action="${contextPath}/logout">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
+
+            <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
+        </c:if>
     <div class="container">
         <div class="calendar-header">
             <i class="fas fa-arrow-circle-left" style="float: left; "></i>

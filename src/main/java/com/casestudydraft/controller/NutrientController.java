@@ -35,7 +35,7 @@ public class NutrientController {
 
     @ModelAttribute("measurements")
     public ArrayList<Measurement> measurements(){
-        return (ArrayList<Measurement>) measurementService.findAll();
+        return (ArrayList<Measurement>) measurementService.listAll();
     }
 
 

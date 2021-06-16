@@ -1,9 +1,11 @@
+<% String title = "Create Measurement"; %>
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
 <%@include file="../inc/messages.jsp" %>
   <div class="container d-flex justify-content-center ">
     <div  class="p-5 shadow">
-      <form method="POST">
+      <form method="POST" action="create">
+          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <h3>Create New Measurement</h3>
         <div class="mb-3">
           <label for="measurement_name" class="form-label">Measurement Name</label>

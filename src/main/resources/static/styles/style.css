@@ -2,6 +2,7 @@
 .secondary-nav .dropdown-menu {
   /* This will only affect the bootstrap dropdown menu up in the nav bar. A lot of websites (KhanAcademy for instance) have this feature when you click the button expands into a BIG container full of different options*/
   width: 100vw;
+  height: 200px;
 }
 body {
   font-family: "Oswald", sans-serif;

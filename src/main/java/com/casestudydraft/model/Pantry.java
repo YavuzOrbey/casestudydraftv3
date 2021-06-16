@@ -13,8 +13,7 @@ public class Pantry extends BaseModel{
     @Column(name="id")
     private Long id;
 
-    @OneToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+    @OneToOne(mappedBy = "pantry")
     private User user;
 
     @OneToMany(mappedBy = "pantry", cascade = {

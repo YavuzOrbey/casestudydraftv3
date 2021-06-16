@@ -1,3 +1,4 @@
+<% String title = "Measurements"; %>
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
 <%@include file="../inc/messages.jsp" %>

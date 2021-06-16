@@ -1,18 +1,10 @@
 package com.casestudydraft.service;
 
-import com.casestudydraft.dao.IngredientDAO;
-import com.casestudydraft.dao.IngredientDAOImpl;
-import com.casestudydraft.dao.MeasurementDAOImpl;
 import com.casestudydraft.model.Ingredient;
-import com.casestudydraft.model.Measurement;
-import com.casestudydraft.model.Nutrient;
+
 import com.casestudydraft.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import java.util.List;
 @Service
 public class IngredientService {

@@ -1,3 +1,4 @@
+<% String title = "Ingredients"; %>
 <%@include file="../inc/head.jsp" %>
 <%@include file="../inc/nav.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -16,11 +17,11 @@
             <tbody>
             <c:forEach items="${ingredients}" var="ingredient">
                 <tr>
-                    <td>${ingredient.name}</td>
+                    <td><a href="${ingredient.id}">${ingredient.name}</a></td>
                     <td><a href="edit/${ingredient.id}"><button ><i class="fas fa-edit text-primary"></i></button></a></td>
                      <td><a href="delete/${ingredient.id}"><button ><i class="fas fa-trash text-danger"></i></button></a></td>
                 </tr>
-                </c:forEach>
+            </c:forEach>
                 <%--<tr>
                     <td><a href="showRecipe.html">Measurement 1</td>
                     <td><button onclick="alert('You deleted this entity....Well not really but you will soon! Under Construction!')"><i class="fas fa-trash"></i></button></td>

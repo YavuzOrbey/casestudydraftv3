@@ -2,6 +2,8 @@ package com.casestudydraft.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name="role")
 public class Role {
@@ -13,18 +15,8 @@ public class Role {
     @Column(name="name")
     private String name;
 
-
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(
-            name="role_user",
-            joinColumns = @JoinColumn(name="role_id",  referencedColumnName="id"),
-            inverseJoinColumns = @JoinColumn(name="user_id",  referencedColumnName="id")
-    )
-
-    private List<User> rUsers;
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
     public Role() {
     }
@@ -44,15 +36,20 @@ public class Role {
         this.name = name;
     }
 
-    public void setUsers(List<User> users) {
-        this.rUsers = users;
-    }
-    public List<User> getUsers() {
-        return rUsers;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserEntity(List<User> users) {
-        this.rUsers = users;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override

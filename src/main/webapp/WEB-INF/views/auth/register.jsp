@@ -1,15 +1,22 @@
+<% String title = "Register"; %>
 <%@include file="../inc/head.jsp" %>
+
 <%@include file="../inc/nav.jsp" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
   <div class="container d-flex justify-content-center ">
     <div id="form" class="p-5 shadow">
-      <form:form action="register" method="POST" modelAttribute="user">
+      <form:form method="POST" modelAttribute="userForm">
         <h3>Register</h3>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <form:input type="email" path="email"  id="email" cssClass="form-control"/>
           <form:errors path="email" class='error' />
         </div>
+        <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <form:input type="text" path="username"  id="username" cssClass="form-control"/>
+                  <form:errors path="username" class='error' />
+                </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
           <form:password path="password" id="password" cssClass="form-control"/>

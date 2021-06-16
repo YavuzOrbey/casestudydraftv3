@@ -39,7 +39,7 @@
       object-fit: contain;
     }
     </style>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/style.css">
+        <link rel="stylesheet" href="styles/style.css">
     <!-- External Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
@@ -52,7 +52,7 @@
     <div id='video-container' class="mb-4 shadow-sm position-relative" >
       <h1 class="fw-bold border border-dark border-2 w-50  p-5 text-center">Suspendisse</h1>
       <video playsinline autoplay muted loop poster="${pageContext.request.contextPath}/images/header-image.jpg" id="theVideo">
-        <source src="${pageContext.request.contextPath}/images/video.mp4" type="video/mp4">
+        <source src="/images/video.mp4" type="video/mp4">
       </video>
     </div>
 
@@ -74,7 +74,7 @@
 
       <div class="col-12 col-md-4">
         <div class="card ">
-          <img src="${pageContext.request.contextPath}/images/pexels-brigitte-tohm-239581.jpg" class="card-img-top d-block" alt="macarons">
+          <img src="/images/pexels-brigitte-tohm-239581.jpg" class="card-img-top d-block" alt="macarons">
           <div class="card-body">
             <h5 class="card-title text-center">Create New Recipes</h5>
             <p class="card-text">Suspendisse laoreet lacus eu urna blandit condimentum. Morbi facilisis consectetur.</p>
@@ -83,7 +83,7 @@
       </div>
       <div class="col-12 col-md-4">
         <div class="card ">
-          <img src="${pageContext.request.contextPath}/images/pexels-ella-olsson-3026805.jpg" class="card-img-top d-block" alt="chicken satay">
+          <img src="/images/pexels-ella-olsson-3026805.jpg" class="card-img-top d-block" alt="chicken satay">
           <div class="card-body">
             <h5 class="card-title text-center">Meal Planning</h5>
             <p class="card-text">Suspendisse laoreet lacus eu urna blandit condimentum. Morbi facilisis consectetur.</p>
@@ -92,7 +92,7 @@
       </div>
       <div class="col-12 col-md-4">
         <div class="card ">
-          <img src="${pageContext.request.contextPath}/images/pexels-dzenina-lukac-1583884.jpg" class="card-img-top d-block" alt="french fries">
+          <img src="/images/pexels-dzenina-lukac-1583884.jpg" class="card-img-top d-block" alt="french fries">
 
           <div class="card-body">
             <h5 class="card-title text-center">Food Inventory Management</h5>
