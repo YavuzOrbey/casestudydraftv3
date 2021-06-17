@@ -19,18 +19,38 @@ public class Measurement extends BaseModel{
     private String name;
 
     @OneToMany(mappedBy="measurement", cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonBackReference("nutrients")
     private List<Nutrient> nutrients;
 
     @OneToMany(mappedBy="measurement", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @JsonBackReference("recipeIngredients")
     private List<RecipeIngredient> recipeIngredients;
+
+    @OneToMany(mappedBy="measurement", cascade = CascadeType.ALL)
+    //@JsonBackReference("ingredients")
+    private List<Ingredient> ingredients;
     public Measurement() {
     }
 
     public Measurement(String name) {
         super();
         this.name = name;
+    }
+
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public Long getId() {

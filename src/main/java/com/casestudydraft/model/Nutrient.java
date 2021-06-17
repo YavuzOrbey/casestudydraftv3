@@ -2,6 +2,7 @@ package com.casestudydraft.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name="nutrient")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Nutrient extends BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +24,12 @@ public class Nutrient extends BaseModel{
     @OneToMany(mappedBy = "nutrient", cascade = {
             CascadeType.ALL
     })
+    @JsonIgnore
     private List<IngredientNutrient> ingredientNutrients = new ArrayList<>();;
 
     @ManyToOne
     @JoinColumn(nullable=false)
-    @JsonManagedReference
+    //@JsonManagedReference("measurement")
     private Measurement measurement;
 
 

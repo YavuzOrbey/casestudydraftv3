@@ -2,6 +2,7 @@ package com.casestudydraft.service;
 
 import com.casestudydraft.model.Ingredient;
 
+import com.casestudydraft.model.Nutrient;
 import com.casestudydraft.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class IngredientService {
     public Ingredient findByName(String name) {
         return ingredientRepository.findByName(name);
     }
+    public List<Ingredient> findByNameIgnoreCaseContaining(String name) { return ingredientRepository.findByNameIgnoreCaseContaining(name);}
     public void delete(Ingredient ingredient){
         ingredientRepository.delete(ingredient);
     }

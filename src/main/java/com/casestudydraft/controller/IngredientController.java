@@ -13,10 +13,12 @@ import com.casestudydraft.tools.KeyValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -72,39 +74,71 @@ public class IngredientController {
         mav = new ModelAndView("ingredient/index");
         return mav;
     }
-    /*@RequestMapping(value="/create", method= RequestMethod.GET)
-    public ModelAndView createIngredient(HttpServletRequest request,
-                                         @ModelAttribute("measurements") ArrayList<Measurement> measurements,  BindingResult result,
-                                         @ModelAttribute("ingredient") Ingredient ingredient) {
 
+
+    @RequestMapping(value="/create", method= RequestMethod.GET)
+    public ModelAndView setUpNutrients(HttpServletRequest request,
+                                       @ModelAttribute("measurements") ArrayList<Measurement> measurements,  BindingResult result,
+                                       @ModelAttribute("ingredient") Ingredient ingredient,
+                                       @ModelAttribute("nutrients") List<Nutrient> nutrients
+                                       ) {
         ModelAndView mav = null;
-        ArrayList<Nutrient> nutrients = (ArrayList<Nutrient>) nutrientService.findAll();
         List<IngredientNutrient> ingredientNutrients = new ArrayList<>();
         for(int i=0; i<nutrients.size(); i++){
             ingredientNutrients.add(new IngredientNutrient(nutrients.get(i)));
         }
 
         ingredient.setIngredientNutrients(ingredientNutrients);
-        mav = new ModelAndView("ingredient/nutrients", "ingredientNutrients", ingredientNutrients);
-        return mav;
-    }*/
-    @RequestMapping(value="/create", method= RequestMethod.GET)
-    public ModelAndView createIngredient(HttpServletRequest request,
-                                         @ModelAttribute("nutrients") ArrayList<Nutrient> nutrients,  BindingResult result) {
-
-        ModelAndView mav = null;
-        mav = new ModelAndView("ingredient/nutrient", "nutrients", nutrients);
+        mav = new ModelAndView("ingredient/create2", "ingredientNutrients", ingredientNutrients);
         return mav;
     }
 
-    @RequestMapping(value="/create3", method= RequestMethod.POST)
+    @RequestMapping(value="/create", method= RequestMethod.POST)
+    public ModelAndView addNutrientsToPage(HttpServletRequest request, @RequestParam ArrayList<Long> chosen, final RedirectAttributes redirectAttributes) {
+
+        ModelAndView mav;
+        List<IngredientNutrient> ingredientNutrients = new ArrayList<>();
+        for(int i=0; i<chosen.size(); i++){
+            ingredientNutrients.add(new IngredientNutrient(nutrientService.get(chosen.get(i))));
+        }
+
+        redirectAttributes.addFlashAttribute("ingredientNutrients", ingredientNutrients);
+        mav = new ModelAndView("redirect:/ingredient/create2");
+        return mav;
+    }
+
+    @RequestMapping(value="/create2", method= RequestMethod.GET)
+    public ModelAndView createIngredient(HttpServletRequest request,
+                                         @ModelAttribute("measurements") ArrayList<Measurement> measurements,  BindingResult result,
+                                         @ModelAttribute("ingredient") Ingredient ingredient,
+                                          List<IngredientNutrient> ingredientNutrients //this will be handled by the forward request
+                                         ) {
+        System.out.println("Hello from /create2 get");
+
+        System.out.println(ingredientNutrients);
+        ModelAndView mav = null;
+//        ArrayList<Nutrient> nutrients = (ArrayList<Nutrient>) nutrientService.findAll();
+//        List<IngredientNutrient> ingredientNutrients = new ArrayList<>();
+//        for(int i=0; i<nutrients.size(); i++){
+//            ingredientNutrients.add(new IngredientNutrient(nutrients.get(i)));
+//        }
+        //ingredient.setIngredientNutrients(ingredientNutrients);
+        mav = new ModelAndView("ingredient/create1", "ingredient", ingredient);
+        return mav;
+    }
+
+    @RequestMapping(value="/create2", method= RequestMethod.POST)
     public ModelAndView storeIngredient(HttpServletRequest request,
                                         @ModelAttribute("ingredient") Ingredient ingredient,
-                                        BindingResult result,  @RequestParam ArrayList<HashMap<String,String>> nutrients) {
+                                        BindingResult result, @RequestParam FormHelper formHelper
+            /* @RequestParam ArrayList<HashMap<String,String>> nutrients*/) {
         // the problem with not having ingredientNutrients already binded to ingredient is that I have to go through the request manually
         // and add it to
+        System.out.println(request);
+        System.out.println("Hello from /create1 post");
         System.out.println(ingredient);
-        System.out.println(nutrients);
+        System.out.println(formHelper.getNutrientAmounts());
+        //System.out.println(nutrients);
         ModelAndView mav = null;
         if(result.hasErrors()){
             mav = new ModelAndView("ingredient/create");
@@ -143,12 +177,8 @@ public class IngredientController {
         mav = new ModelAndView("redirect:");
         return mav;
     }
-    @RequestMapping(value="/create", method= RequestMethod.POST)
-    public ModelAndView createIngredientPage(HttpServletRequest request, @RequestParam ArrayList<Integer> chosen) {
-        ModelAndView mav;
-        mav = new ModelAndView("forward:ingredient/create");
-        return mav;
-    }
+
+
 
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
@@ -187,5 +217,21 @@ public class IngredientController {
         return "redirect:/ingredient/";
     }
 
+
+    @RequestMapping(value="/example", method = RequestMethod.GET)
+    public String example(){
+        return "ingredient/exampleForm";
+    }
+
+    @RequestMapping(value="/example", method = RequestMethod.POST)
+    public String getData(@RequestParam Map<String, String> hashMap){
+        System.out.println(hashMap);
+        // what I want { a=> 1, b=>2, c=>3, d=>4  }
+        return "ingredient/exampleForm";
+    }
+    @RequestMapping(value="/example2", method = RequestMethod.GET)
+    public String example2(){
+        return "ingredient/exampleForm2";
+    }
 
 }

@@ -80,7 +80,7 @@ public class RecipeController {
                                      @ModelAttribute("recipes") ArrayList<Recipe> recipes
                                      ){
         ModelAndView mav = null;
-        mav = new ModelAndView("recipe/create");
+        mav = new ModelAndView("recipe/create2");
         mav.addObject("recipe", new Recipe());
         return mav;
     }

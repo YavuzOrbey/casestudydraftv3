@@ -99,16 +99,12 @@
         Why not a list of IngredientNutrients? maybe but this works if there's time try this
 
     --%>
-    <spring:bind path="ingredientNutrients">
-        <div id="nutrients"></div>
-
-    </spring:bind>
-         <%--<c:forEach items="${ingredient.ingredientNutrients}" var="currentItem" varStatus="currentIN">
+    <c:forEach items="${ingredient.ingredientNutrients}" var="currentItem" varStatus="currentIN">
         <div>
             <label>${currentItem.nutrient.name} (${currentItem.nutrient.measurement.name})</label>
             <form:input class='form-control' path="ingredientNutrients[${currentIN.index}].amount" placeholder="value"/>
             <form:hidden path="ingredientNutrients[${currentIN.index}].nutrient.id" value="${currentItem.nutrient.id}" />
-            --%><%--<form:input class='form-control' path="nutrientAmounts[${currentNutrientIndex.index}].second" placeholder="value"/>
+            <%--<form:input class='form-control' path="nutrientAmounts[${currentNutrientIndex.index}].second" placeholder="value"/>
              <form:errors path="nutrientAmounts[${currentNutrientIndex.index}].second" class='form-error' />
             <form:hidden path="nutrientAmounts[${currentNutrientIndex.index}].first" value="${currentNutrient.first.id}" />--%><%----%><%--
             --%><%----%><%--
@@ -123,8 +119,8 @@
               <form:hidden path = "ingredientNutrients[${currentNutrientIndex.index}].nutrient.id" value = "${currentNutrient.value.key}" />
               <form:hidden path = "ingredientNutrients[${currentNutrientIndex.index}].nutrient.name" value = "${currentNutrient.key}" />--%><%--
 
-        </div>
-        </c:forEach>--%>
+        </div> --%>
+        </c:forEach>
 
 
     </div>

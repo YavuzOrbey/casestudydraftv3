@@ -1,11 +1,16 @@
 package com.casestudydraft.controller;
 
 import com.casestudydraft.model.Ingredient;
+import com.casestudydraft.model.IngredientNutrient;
 import com.casestudydraft.model.Measurement;
 import com.casestudydraft.model.Nutrient;
 import com.casestudydraft.service.IngredientService;
 import com.casestudydraft.service.MeasurementService;
 import com.casestudydraft.service.NutrientService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -77,20 +82,45 @@ public class APIController {
         return nutrientService.findByNameIgnoreCaseContaining(q);
     }
 
-    @RequestMapping(value="/ingredient")
+    @RequestMapping(value="/ingredients")
     public List<Ingredient> viewAllIngredients(@ModelAttribute("ingredients") List<Ingredient> ingredients) {
         return ingredients;
     }
 
+    @RequestMapping(value="/ingredient")
+    public List<Ingredient> findMatchingIngredients(@RequestParam String q) {
+        return ingredientService.findByNameIgnoreCaseContaining(q);
+    }
     @RequestMapping(value="/ingredient", method=RequestMethod.POST)
-    public Ingredient storeIngredient(@ModelAttribute("ingredient") Ingredient ingredient, @RequestParam MultiValueMap<String, String> params,
-                                      @RequestParam Map<String, String> nutrients) {
-        System.out.println("hitting this ");
-        System.out.println(ingredient);
-        System.out.println(params);
+    public  @ResponseBody Ingredient storeIngredient( @RequestBody String string) throws JsonProcessingException { // Ingredient ingredient
+        System.out.println(string);
 
-        System.out.println(nutrients);
-        return ingredient;
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        JsonNode jsonObject = mapper.readTree(string);
+        Ingredient ingredient = mapper.readValue(string, Ingredient.class); // this will try to parse what it can into a Ingredient pojo minus the stuff I explitcitly told it not to
+        JsonNode measurementJson = jsonObject.path("measurement");
+        Measurement measurement = measurementService.get(Long.parseLong(measurementJson.toString()));
+        System.out.println(measurement);
+        ingredient.setMeasurement(measurement);
+        JsonNode nutrients = jsonObject.path("nutrients");
+        List<IngredientNutrient> ingredientNutrients = new ArrayList<>();
+        nutrients.forEach(nutrient-> {
+            try {
+                JsonNode currentNutrient = mapper.readTree(nutrient.toString());
+                System.out.println(currentNutrient.path("id").toString());
+
+               IngredientNutrient ingredientNutrient = new IngredientNutrient(nutrientService.get(Long.parseLong(currentNutrient.path("id").toString())));
+               ingredientNutrient.setIngredient(ingredient);
+                ingredientNutrient.setAmount(Integer.parseInt(currentNutrient.path("amount").toString()));
+                ingredientNutrients.add(ingredientNutrient);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
+        });
+        ingredient.setIngredientNutrients(ingredientNutrients);
+        ingredientService.save(ingredient);
+        return new Ingredient();
     }
 
 

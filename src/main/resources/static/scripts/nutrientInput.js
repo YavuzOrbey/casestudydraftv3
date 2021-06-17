@@ -31,9 +31,8 @@ function removeAllChildNodes(parent) {
                            button.addEventListener("click", function(){
                                 let div = document.createElement("DIV");
                                 div.innerHTML = `<label>${results[i].name} (${results[i].measurement.name})</label>
-                                 <input class='form-control' data-nutrient-id="${results[i].id}" name="nutrients[${i}]["${results[i].id}"]" placeholder="value"/>
+                                 <input class='form-control' type="number" data-nutrient-id="${results[i].id}" name="nutrients" placeholder="value"/>
                                 `;
-
                                 //trying to do this with form:input impossible
                                 document.getElementById("nutrients").appendChild(div);
                            })

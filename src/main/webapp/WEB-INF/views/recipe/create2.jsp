@@ -1,4 +1,4 @@
-<% String title = "Create Ingredient"; %>
+<% String title = "Create Recipe"; %>
 <%@include file="../inc/head.jsp" %>
 <style>
 /* Dropdown Button */
@@ -64,58 +64,87 @@
 <%@include file="../inc/nav.jsp" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%-- I'm going to lost a lot of the functionality of the form: stuff--%>
-<form class='container' id="form" method="POST" action="/ingredient/create2" >
-<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    <div class="mb-3">
-        <label for="name" class='form-label'>Ingredient Name</label>
-        <input id="name" type="text" class='form-control' placeholder="Ingredient Name" name="name"/>
-    </div>
-    <div class="mb-3">
-        <label for="serving"  class='form-label'>Serving Size</label>
-        <input id="serving" class='form-control' name="serving" type="number" placeholder="Serving Size" />
-    </div>
 
-    <div class='form-check form-check-inline mb-3'>
+<form method="POST" class='container'>
+    <div class="mb-3">
+        <label for="name" class='form-label'>Recipe Name</label>
+        <input id="name" type="text" class='form-control' placeholder="Recipe Name" name="name"/>
+        <!-- figure out how to do some validation errors without form:error -->
+    </div>
+    <div class="mb-3">
+        <label for="cuisine"  class='form-label'>Cuisine</label>
+        <input id="cuisine" class='form-control' name="cuisine" type="text" placeholder="Cuisine" />
+    </div>
+    <a href="#" onclick="doSomething = function(e){e.preventDefault(); console.log('clicked')}">Add New Ingredient</a>
+    <div class='form-check form-check-inline mb-3 measurements'>
         <c:forEach items="${measurements}" var="measurement">
-        <input type="radio"  name="measurement" value="${measurement.id}">
-        <label >${measurement.name}</label><br>
+                <label>${measurement.name}</label>
+                <input type="radio" name="measurement" value="${measurement.id}">
         </c:forEach>
     </div>
-    <div class="mb-3">
-        <label for="calories"  class='form-label'>Calories per Serving</label>
-        <input id="calories" class='form-control' name="calories" type="number" placeholder="Calories" />
-    </div>
-    <div class="mb-3">
-        <div id="nutrients"></div>
-    </div>
+    <button onclick="()->console.log('step clicked')">Add New Step</button>
+    <%--<div class='new-step' >
+        <div class="mb-3">
+                    <label  class='form-label'>Quanity</label>
+                    <form:input class='form-control' path="recipe.recipeIngredients[]" type="text" placeholder="Ingredient Name" />
+                    <form:errors path="recipe.recipeIngredients[]" class='form-error' />
+        </div>
+        <div class='form-check form-check-inline mb-3'>
+            <c:forEach items="${measurements}" var="measurement">
+             <form:radiobutton path="recipe.recipeIngredients[].measurement.id" value="${measurement.id}" label="${measurement.name}" />
+             </c:forEach>
+        </div>
+    </div>--%>
+
     <button>Submit</button>
 </form>
+
 <div class="dropdown">
-      <button onclick="myFunction()" class="dropbtn">Add Nutrient</button>
+      <button onclick="myFunction()" class="dropbtn">Add Ingredient</button>
       <div id="myDropdown" class="dropdown-content">
         <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
         <ul id='results'>
             <!-- populate this area with results from the database after an ajax request -->
         </ul>
       </div>
- </div>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="/scripts/nutrientInput.js"></script>
-        <script>
-        let form = document.getElementById("form");
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/scripts/ingredientInput.js"></script>
+<script>
+<%--<div class='new-ingredient' >
+        <div class="mb-3">
+            <label  class='form-label'>Ingredient</label>
+            <input type="text" name="ingredient">
+            <label  class='form-label'>Quanity</label>
+            <input type="number" name="quantity">
+            <div class='form-check form-check-inline mb-3'>
+                <c:forEach items="${measurements}" var="measurement">
+                <label>${meas}
+                <input type="radio" name="measurement" value="${measurement}"
+
+                 </c:forEach>
+            </div>
+        </div>
+    </div>--%>
+
+
+ let form = document.getElementById("form");
+ let measurements = [];
+        <c:forEach items="${measurements}" var="measurement">
+        measurements.push({id: ${measurement.id}, name: '${measurement.name}' });
+        </c:forEach>
+
+        console.log(measurements)
         let token = document.querySelector('input[name="_csrf"]').value;
         axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
         form.addEventListener("submit", function(event){
             event.preventDefault();
             //go through each input in id nutrients and see populate object with if ex: nutrients { 3: 10, 4: 10 } where key is id of nutrient and value is amount
-            const ingredient = {};
-            ingredient.name = document.querySelector('input[name="name"]').value
-            ingredient.servingSize = parseInt(document.querySelector('input[name="serving"]').value,10)
-            ingredient.measurement =  parseInt(document.querySelector('input[name="measurement"]:checked').value,10)
-            ingredient.calories =  parseInt(document.querySelector('input[name="calories"]').value,10)
-            ingredient.nutrients = [];
-            let nutrientInputs = document.getElementsByName("nutrients");
+            const recipe = {};
+            recipe.name = document.querySelector('input[name="name"]').value
+            recipe.cuisine =  document.querySelector('input[name="cuisine"]').value
+            recipe.ingredients = [];
+            let ingredientInputs = document.getElementsByName("ingredients");
             for(let i=0; i<nutrientInputs.length; i++){
                 ingredient.nutrients.push({id: parseInt(nutrientInputs[i].dataset.nutrientId,10), amount: parseInt(nutrientInputs[i].value, 10)});
             }
@@ -125,8 +154,7 @@
             axios.post("/api/ingredient", json,  {
             headers: {'Content-Type': 'application/json', }
             }).then(response=>{
-            //try to send person back to ingredient index after this
                     console.log("got response back"); });
             });
-        </script>
+</script>
 <%@include file="../inc/foot.jsp" %>

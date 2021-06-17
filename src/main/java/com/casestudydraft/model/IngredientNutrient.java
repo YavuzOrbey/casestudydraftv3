@@ -15,12 +15,12 @@ public class IngredientNutrient extends BaseModel {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "ingredient_id")
-    @JsonBackReference
+    @JsonBackReference("ingredientInIngredientNutrient")
     private Ingredient ingredient;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "nutrient_id")
-    @JsonBackReference
+    @JsonBackReference("nutrientInIngredientNutrient")
     private Nutrient nutrient;
 
     @Column(name = "amount")
